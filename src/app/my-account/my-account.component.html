@@ -1,0 +1,86 @@
+<article *ngIf="this.user"> 
+  <div class="containter">
+      <!-- Accounts's info -->
+      <div class="content mb30" id="account-info">
+          <!-- Title -->
+          <h3>My account</h3>
+
+          <!-- Separator -->
+          <hr class="mt20 mb30">
+
+          <div class="form-group row" align="right">
+              <!-- Name -->
+              <label class="col-2 col-form-label"><strong>Name: </strong></label>
+              <div class="col-4">
+                  <input type="text" class="form-control" placeholder="Your name" [(ngModel)]="this.user.name" required/>
+              </div>
+
+              <!-- Email -->
+              <label class="col-2 col-form-label"><strong>Email: </strong></label>
+              <div class="col-4">
+                  <input type="email" class="form-control" placeholder="Your email" [(ngModel)]="this.user.email" required disabled/>
+              </div>
+          </div>
+          
+          <div class="form-group row" align="right">
+              <!-- Birthday -->
+              <label class="col-2 col-form-label"><strong>Birthday:</strong></label>
+              <div class="col-4">
+                  <input type="date" class="form-control" placeholder="Birth date" [ngModel]="this.user.birthday | date:'yyyy-MM-dd'" (ngModelChange)="this.user.birthday = $event" required/>
+              </div>
+
+              <!-- Phone number -->
+              <label class="col-2 col-form-label"><strong>Phone number: </strong></label>
+              <div class="col-4">
+                  <input type="email" class="form-control" placeholder="Your phone number" [(ngModel)]="this.user.phoneNumber" required/>
+              </div>
+          </div>
+
+          <!-- Location -->
+          <div class="form-group row mt5" align="right">
+              <label class="col-2 col-form-label"><strong>From: </strong></label>
+              <div class="col-10">
+                  <div class="row">
+                      <div class="col-4">
+                          <select class="form-control">
+                              <option selected>Select country...</option>
+                          </select>
+                      </div>
+                      <div class="col-4">
+                          <select class="form-control">
+                              <option selected>Select state...</option>
+                          </select>
+                      </div>
+                      <div class="col-4">
+                          <select class="form-control">
+                              <option selected>Select city...</option>
+                          </select>
+                      </div>
+                  </div>
+              </div>
+          </div>   
+          <button class="btn btn-primary" (click)="saveChanges()">Save changes</button>
+          <!-- /account-info -->           
+      </div>
+
+      <!-- Your posts -->
+      <div class="content mb30" id="your-posts" *ngIf="this.user.posts">
+          <!-- Title -->
+          <h3>Your posts</h3>
+
+          <!-- Separator -->
+          <hr class="mt20 mb30">
+
+          <p align="center" *ngIf="this.user.posts.length < 1">You do not have posts.</p>
+
+          <app-post *ngFor="let post of posts" [post]="post"></app-post>
+
+          <!-- /your-posts -->           
+      </div>
+      <!-- /container -->
+  </div>
+</article>
+
+<article *ngIf="!this.user">>
+    <h1 class="loading">Loading profile...</h1>
+</article>

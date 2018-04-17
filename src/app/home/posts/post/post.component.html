@@ -1,0 +1,40 @@
+<div class="row pt15 pb15 align-items-center post">
+  <!-- Picture -->
+  <div class="col-3">
+      <img src="http://placeimg.com/150/100/animals" alt="Pet's name">
+  </div>
+  <!-- Info -->
+  <div class="col-8 mt25">
+      <!-- First row -->
+      <div class="row mb5">
+          <div class="col-4">
+              <p><strong>Name: </strong>{{ this.post.petName }}</p>
+          </div>
+          <div class="col-4">
+              <p><strong>Age: </strong>{{ this.petAge }}</p>
+          </div>
+          <div class="col-4">
+              <p><strong>Reward: </strong>${{ this.post.reward }} USD</p>
+          </div>
+      </div>
+      <!-- Second row -->
+      <div class="row mb5">
+          <div class="col-4">
+              <p><strong>Animal: </strong>{{ this.post.animal }}</p>
+          </div>
+          <div class="col-8">
+              <p><strong>Breed: </strong>{{ this.post.breed }}</p>
+          </div>
+      </div>
+      <!-- Third row -->
+      <div class="row mb5">
+          <div class="col-12">
+              <p><strong>Last seen: </strong>{{ this.lostDate | date }} near {{ this.lostLocation }}</p>
+          </div>
+      </div>
+  </div>
+  <!-- Chevron -->
+  <div class="col-1">
+      <img src="./assets/right-chevron.png" alt="See details" class="chevron">
+  </div>
+</div>

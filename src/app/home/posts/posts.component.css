@@ -1,0 +1,17 @@
+.post:hover {
+    cursor: pointer;
+    background-color: #ebebeb;
+}
+
+#posts-container {
+    overflow: hidden;
+    margin-right: 30px;
+    font-size: 15px;
+}
+
+.column {
+    height: 100%;
+    padding: 30px;
+    border-radius: 10px;
+    background-color: white;
+}

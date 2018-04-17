@@ -1,0 +1,46 @@
+.content {
+    height: 100%;
+    padding: 30px;
+    border-radius: 10px;
+    background-color: white;
+  }
+  
+  #pet-info {
+    height: 100%;
+    padding: 30px;
+    border-radius: 10px;
+    background-color: white;
+    margin-left: 15%;
+    margin-right: 15%;
+  }
+  
+  #pet-info .additional-info {
+    font-size: 12px;
+    color: grey;
+    margin-top: 10px;
+    margin-bottom: 0;
+  } 
+  
+  #pet-info img {
+    max-width: 100%;
+  } 
+  
+  #owner-info {
+    min-width: 33%;
+    max-width: 50%;
+    overflow: hidden;
+    margin: 0 30px 0 15%;
+  }
+  
+  #owner-info p {
+    margin-left: 20px;
+  }
+  
+  #owner-info .form-check-label {
+    margin-top: 10px;
+    font-size: 12px;
+  }
+  
+  #owner-info .form-check-label input {
+    margin-top: 3px;
+  }
