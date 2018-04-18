@@ -6,3 +6,13 @@ img {
 .chevron {
     max-width: 20px;
 }
+
+.post {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.post:hover {
+    cursor: pointer;
+    background-color: #ebebeb;
+}

@@ -1,6 +1,6 @@
-import { Owner } from "./Owner";
 import { PostComment } from "./PostComment";
 import { Loc } from "../interfaces/Loc";
+import { Owner } from "../interfaces/Owner";
 
 export class Post {
     animal: string;
@@ -17,18 +17,18 @@ export class Post {
     reward: number;
     userId: string;
 
-    public constructor () {
+    public constructor() {
         this.animal = null;
         this.breed = null
         this.createdAt = null;
         this.description = '';
         this.id = null;
         this.lostDate = null;
-        this.lostPlace = null;
-        this.ownerContactInfo = new Owner();
+        this.lostPlace = { city: null, state: null, country: null };
+        this.ownerContactInfo = null;
         this.petAge = null;
         this.petName = '';
-        this.reward = 0;
+        this.reward = null;
         this.userId = null;
     }
 }

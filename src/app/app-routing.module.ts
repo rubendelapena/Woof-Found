@@ -11,7 +11,7 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'post/:postId', component: PostDetailsComponent },
   { path: 'posts/:actionToPerform', component: AddPostComponent },
-  { path: 'posts/:actionToPerform/:postId', component: AddPostComponent },
+  { path: 'post/:postId/:actionToPerform', component: AddPostComponent },
   { path: 'my-account', component: MyAccountComponent },
   { path: 'about-us', component: AboutUsComponent }
 ];

@@ -1,30 +1,41 @@
 <div class="containter column" id="posts-container">
-  <!-- Container header -->
-  <div class="row align-items-center">
-      <div class="col-4">
-          <h3>Posts feed</h3>
-      </div>
-      <div class="col-5" align="right">
-          <div class="row align-items-center">
-          <div class="col-4">
-              <strong>Sort by: </strong>
-          </div>
-          <div class="col-8">
-              <select class="form-control" name="pet-breed" id="pet-breed">
-              <option value="0">Most recent</option>
-              </select>
-          </div>
-          </div>
-      </div>
-      <div class="col-3" align="right">
-          <button class="btn btn-primary" routerLink="/posts/add">Add <span class="d-none d-lg-inline d-xl-inline">post</span></button>
-      </div>
-  </div>
-  <!-- Separator -->
-  <hr class="mt20">
-  
-  <!-- Post -->
-  <app-post class="post" *ngFor="let post of this.posts" [post]="post" routerLink="/post/{{ this.post.id }}"></app-post>
-  <!-- Separator -->
-  <hr>
+    <!-- Container header -->
+    <div class="row align-items-center">
+        <div class="col-4">
+            <h3>Posts feed</h3>
+        </div>
+        <div class="col-5" align="right">
+            <div class="row align-items-center">
+                <div class="col-4">
+                    <strong>Sort by: </strong>
+                </div>
+                <div class="col-8">
+                    <select class="form-control" name="pet-breed" id="pet-breed">
+                        <option value="0">Most recent</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-3" align="right">
+            <button class="btn btn-primary" routerLink="/posts/add">Add
+                <span class="d-none d-lg-inline d-xl-inline">post</span>
+            </button>
+        </div>
+    </div>
+    <!-- Separator -->
+    <hr class="mt20">
+
+    <!-- Posts -->
+    <div *ngFor="let post of this.posts">
+        <!-- Post -->
+        <app-post class="post" [post]="post" routerLink="/post/{{ this.post.id }}"></app-post>
+        <!-- Separator -->
+        <hr *ngIf="post != this.posts[this.posts.length - 1]">
+    </div>
+
+    <!-- Loading -->
+    <div *ngIf="!this.posts">
+        <h1 class="loading">Loading posts...</h1>
+    </div>
+
 </div>

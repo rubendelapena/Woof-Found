@@ -71,7 +71,7 @@ export class PostService {
   public addComment(postId: string, comment: PostComment, success: (message: string) => void, error: (message: string) => void) {
 
     const model = {
-      createdAt: Date.now(),
+      createdAt: comment.createdAt,
       text: comment.text,
       userId: comment.userId,
       userName: comment.userName
@@ -89,6 +89,24 @@ export class PostService {
   }
 
   public addPost(post: Post, success: (message: string) => void, error: (message: string) => void) {
+    const postModel = {
+      'animal': post.animal,
+      'breed': post.breed,
+      'createdAt': post.createdAt,
+      'description': post.description,
+      'lostDate': post.lostDate,
+      'lostPlace': post.lostPlace,
+      'ownerContactInfo': post.ownerContactInfo,
+      'petAge': post.petAge,
+      'petName': post.petName,
+      'reward': post.reward,
+      'userId': post.userId
+    };
+    
+    this.afs.collection('posts').add(postModel);
+  }
+
+  public updatePost(post: Post, success: (message: string) => void, error: (message: string) => void) {
     
   }
 }

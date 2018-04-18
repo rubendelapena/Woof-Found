@@ -25,7 +25,7 @@ export class PostComponent implements OnInit {
 
     this.lostDate = new Date(this.post.lostDate);
 
-    this.lostLocation = this.post.lostPlace['city'] + ', ' + this.post.lostPlace['country'];
+    this.lostLocation = this.post.lostPlace['city'] + ', ' + this.post.lostPlace['state'] + ', ' + this.post.lostPlace['country'];
   }
 
 }

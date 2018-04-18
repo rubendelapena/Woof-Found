@@ -4,6 +4,8 @@ import { PostService } from '../services/post.service';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { PostComment } from '../models/PostComment';
+import { UserService } from '../services/user.service';
+import { ERROR_COMPONENT_TYPE } from '@angular/compiler';
 
 @Component({
   selector: 'app-post-details',
@@ -20,7 +22,8 @@ export class PostDetailsComponent implements OnInit {
   constructor(
     private location: Location,
     private activatedRoute: ActivatedRoute,
-    private postService: PostService
+    private postService: PostService,
+    private userService: UserService
   ) {
     this.comment = new PostComment();
    }
@@ -40,7 +43,7 @@ export class PostDetailsComponent implements OnInit {
         }
     
         // Set location string.
-        this.lostLocation = this.post.lostPlace['city'] + ', ' + this.post.lostPlace['country'];
+        this.lostLocation = this.post.lostPlace['city'] + ', ' + this.post.lostPlace['state'] + ', ' + this.post.lostPlace['country'];
 
         // Get post comments.
         this.postService.getAllComments(this.post.id, 
@@ -56,6 +59,16 @@ export class PostDetailsComponent implements OnInit {
         console.error(errorMessage);
       }
     );
+
+    this.userService.getLoggedUser(
+      user => {
+        this.comment.userId = user.id;
+        this.comment.userName = user.name;
+      },
+      errorMessage => {
+        console.error(errorMessage);
+      }
+    );
   }
 
   private goBack() {
@@ -63,15 +76,17 @@ export class PostDetailsComponent implements OnInit {
   }
 
   private postComment() {
-    console.log(this.comment);
+    this.comment.createdAt = Date.now();
 
-    // this.postService.addComment(this.post.id, this.comment, 
-    //   successMessage => {
-    //     console.log(successMessage);
-    //   },
-    //   errorMessage => {
-    //     console.error(errorMessage);
-    //   }
-    // );
+    this.postService.addComment(this.post.id, this.comment, 
+      successMessage => {
+        console.log(successMessage);
+        this.comment.createdAt = null;
+        this.comment.text = '';
+      },
+      errorMessage => {
+        console.error(errorMessage);
+      }
+    );
   }
 }

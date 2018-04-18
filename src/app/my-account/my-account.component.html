@@ -1,84 +1,109 @@
-<article *ngIf="this.user"> 
-  <div class="containter">
-      <!-- Accounts's info -->
-      <div class="content mb30" id="account-info">
-          <!-- Title -->
-          <h3>My account</h3>
+<article *ngIf="this.user">
+    <div class="containter">
+        <!-- Accounts's info -->
+        <div class="content mb30" id="account-info">
+            <!-- Title -->
+            <h3>My account</h3>
 
-          <!-- Separator -->
-          <hr class="mt20 mb30">
+            <!-- Separator -->
+            <hr class="mt20 mb30">
 
-          <div class="form-group row" align="right">
-              <!-- Name -->
-              <label class="col-2 col-form-label"><strong>Name: </strong></label>
-              <div class="col-4">
-                  <input type="text" class="form-control" placeholder="Your name" [(ngModel)]="this.user.name" required/>
-              </div>
+            <div class="form-group row" align="right">
+                <!-- Name -->
+                <label class="col-2 col-form-label">
+                    <strong>Name: </strong>
+                </label>
+                <div class="col-4">
+                    <input type="text" class="form-control" placeholder="Your name" [(ngModel)]="this.user.name" required/>
+                </div>
 
-              <!-- Email -->
-              <label class="col-2 col-form-label"><strong>Email: </strong></label>
-              <div class="col-4">
-                  <input type="email" class="form-control" placeholder="Your email" [(ngModel)]="this.user.email" required disabled/>
-              </div>
-          </div>
-          
-          <div class="form-group row" align="right">
-              <!-- Birthday -->
-              <label class="col-2 col-form-label"><strong>Birthday:</strong></label>
-              <div class="col-4">
-                  <input type="date" class="form-control" placeholder="Birth date" [ngModel]="this.user.birthday | date:'yyyy-MM-dd'" (ngModelChange)="this.user.birthday = $event" required/>
-              </div>
+                <!-- Email -->
+                <label class="col-2 col-form-label">
+                    <strong>Email: </strong>
+                </label>
+                <div class="col-4">
+                    <input type="email" class="form-control" placeholder="Your email" [(ngModel)]="this.user.email" required disabled/>
+                </div>
+            </div>
 
-              <!-- Phone number -->
-              <label class="col-2 col-form-label"><strong>Phone number: </strong></label>
-              <div class="col-4">
-                  <input type="email" class="form-control" placeholder="Your phone number" [(ngModel)]="this.user.phoneNumber" required/>
-              </div>
-          </div>
+            <div class="form-group row" align="right">
+                <!-- Birthday -->
+                <label class="col-2 col-form-label">
+                    <strong>Birthday:</strong>
+                </label>
+                <div class="col-4">
+                    <input type="date" class="form-control" placeholder="Birth date" [ngModel]="this.user.birthday | date:'yyyy-MM-dd'" (ngModelChange)="this.user.birthday = $event"
+                        required/>
+                </div>
 
-          <!-- Location -->
-          <div class="form-group row mt5" align="right">
-              <label class="col-2 col-form-label"><strong>From: </strong></label>
-              <div class="col-10">
-                  <div class="row">
-                      <div class="col-4">
-                          <select class="form-control">
-                              <option selected>Select country...</option>
-                          </select>
-                      </div>
-                      <div class="col-4">
-                          <select class="form-control">
-                              <option selected>Select state...</option>
-                          </select>
-                      </div>
-                      <div class="col-4">
-                          <select class="form-control">
-                              <option selected>Select city...</option>
-                          </select>
-                      </div>
-                  </div>
-              </div>
-          </div>   
-          <button class="btn btn-primary" (click)="saveChanges()">Save changes</button>
-          <!-- /account-info -->           
-      </div>
+                <!-- Phone number -->
+                <label class="col-2 col-form-label">
+                    <strong>Phone number: </strong>
+                </label>
+                <div class="col-4">
+                    <input type="email" class="form-control" placeholder="Your phone number" [(ngModel)]="this.user.phoneNumber" required/>
+                </div>
+            </div>
 
-      <!-- Your posts -->
-      <div class="content mb30" id="your-posts" *ngIf="this.user.posts">
-          <!-- Title -->
-          <h3>Your posts</h3>
+            <!-- Location -->
+            <div class="form-group row mt5" align="right">
+                <label class="col-2 col-form-label">
+                    <strong>From: </strong>
+                </label>
+                <div class="col-10">
+                    <div class="row">
+                        <div class="col-4">
+                            <select class="form-control" (change)="countryChanged($event)">
+                                <option value="none" disabled selected>Select country...</option>
+                                <option value="CA">Canada</option>
+                                <option value="MX">México</option>
+                                <option value="US">United States</option>
+                            </select>
+                        </div>
+                        <div class="col-4">
+                            <select class="form-control" (change)="stateChanged($event)">
+                                <option value="none" disabled selected>Select state...</option>
+                                <option *ngFor="let state of this.states" value="{{ state.id }}">{{ state.name }}</option>
+                            </select>
+                        </div>
+                        <div class="col-4">
+                            <select class="form-control" (change)="cityChanged($event)">
+                                <option value="none" disabled selected>Select city...</option>
+                                <option *ngFor="let city of this.cities" value="{{ city.id }}">{{ city.name }}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-          <!-- Separator -->
-          <hr class="mt20 mb30">
+            <div class="mt25" align="right">
+                <button class="btn btn-primary" (click)="saveChanges()">Save changes</button>
+            </div>
+            <!-- /account-info -->
+        </div>
 
-          <p align="center" *ngIf="this.user.posts.length < 1">You do not have posts.</p>
+        <!-- Your posts -->
+        <div class="content mb30" id="your-posts" *ngIf="this.user.posts">
+            <!-- Title -->
+            <h3>Your posts</h3>
 
-          <app-post *ngFor="let post of posts" [post]="post"></app-post>
+            <!-- Separator -->
+            <hr class="mt20">
 
-          <!-- /your-posts -->           
-      </div>
-      <!-- /container -->
-  </div>
+            <p class="mt30" align="center" *ngIf="this.user.posts.length < 1">You do not have posts.</p>
+
+            <!-- Posts -->
+            <div *ngFor="let post of this.user.posts">
+                <!-- Post -->
+                <app-post class="post" [post]="post" routerLink="/post/{{ this.post.id }}"></app-post>
+                <!-- Separator -->
+                <hr *ngIf="post != this.user.posts[this.user.posts.length - 1]">
+            </div>
+
+            <!-- /your-posts -->
+        </div>
+        <!-- /container -->
+    </div>
 </article>
 
 <article *ngIf="!this.user">>

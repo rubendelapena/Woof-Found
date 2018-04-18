@@ -1,174 +1,206 @@
 <article *ngIf="this.post">
-  <div class="containter">
-      <!-- Pet's info -->
-      <div class="content mb30" id="pet-info">
-          <!-- Title -->
-          <div class="row align-items-bottom">
-              <div class="col-6">
-                  <h3 class="m0">About your pet</h3>
-              </div>
-              <div class="col-6" align="right">
-                  <button class="btn btn-primary">Go back</button>
-              </div>
-          </div>
+    <div class="containter">
+        <!-- Pet's info -->
+        <div class="content mb30" id="pet-info">
+            <!-- Title -->
+            <div class="row align-items-bottom">
+                <div class="col-6">
+                    <h3 class="m0">About your pet</h3>
+                </div>
+                <div class="col-6" align="right">
+                    <button class="btn btn-primary" (click)="goBack()">Go back</button>
+                </div>
+            </div>
 
-          <!-- Separator -->
-          <hr class="mt15 mb30">
+            <!-- Separator -->
+            <hr class="mt15 mb30">
 
-          <!-- Pet's info -->
-          <div class="row align-items-center">
-              <div class="col-5">
-                  <img src="../assets/paw-square.png" alt="Pet's name">
-                  <div class="form-group mt20">
-                      <label><strong>Upload picture</strong></label>
-                      <input type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp">
-                      <small id="fileHelp" class="form-text text-muted mt10">Uploading a picture of your pet will make it easier for people to identify it.</small>
-                  </div>
-              </div>
-              <div class="col-7">
-                  <div class="form-group row">
-                      <label class="col-2 col-form-label"><strong>Name: </strong></label>
-                      <div class="col-10">
-                          <input type="text" class="form-control" placeholder="Your pet's name" [(ngModel)]="this.post.petName" required/>
-                      </div>
-                  </div>
+            <!-- Pet's info -->
+            <div class="row align-items-center">
+                <div class="col-5">
+                    <img src="../assets/paw-square.png" alt="Pet's name">
+                    <div class="form-group mt20">
+                        <label>
+                            <strong>Upload picture</strong>
+                        </label>
+                        <input type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp">
+                        <small id="fileHelp" class="form-text text-muted mt10">Uploading a picture of your pet will make it easier for people to identify it.</small>
+                    </div>
+                </div>
+                <div class="col-7">
+                    <div class="form-group row">
+                        <label class="col-2 col-form-label">
+                            <strong>Name: </strong>
+                        </label>
+                        <div class="col-10">
+                            <input type="text" class="form-control" placeholder="Your pet's name" [(ngModel)]="this.post.petName" required/>
+                        </div>
+                    </div>
 
-                  <div class="form-group row">
-                      <label class="col-2 col-form-label"><strong>Age: </strong></label>
-                      <div class="col-5">
-                          <input type="number" class="form-control" placeholder="Your pet's age" [(ngModel)]="this.post.petAge" required/>
-                      </div>
-                      <div class="col-5">
-                          <select class="form-control">
-                              <option selected>Years</option>
-                              <option>Months</option>
-                          </select>
-                      </div>
-                  </div>
+                    <div class="form-group row">
+                        <label class="col-2 col-form-label">
+                            <strong>Age: </strong>
+                        </label>
+                        <div class="col-5">
+                            <input type="number" class="form-control" placeholder="Your pet's age" [(ngModel)]="this.petAge" required/>
+                        </div>
+                        <div class="col-5">
+                            <select class="form-control" id="age-unit">
+                                <option value="years" selected>Years</option>
+                                <option value="months">Months</option>
+                            </select>
+                        </div>
+                    </div>
 
-                  <div class="form-group row">
-                      <label class="col-2 col-form-label"><strong>Animal: </strong></label>
-                      <div class="col-5">
-                          <select class="form-control" (change)="changedAnimal($event)">
-                              <option value="none" disabled selected>Select type...</option>
-                              <option value="cat">Cat</option>
-                              <option value="chicken">Chicken</option>
-                              <option value="dog">Dog</option>
-                              <option value="donkey">Donkey</option>
-                              <option value="duck">Duck</option>
-                              <option value="goat">Goat</option>
-                              <option value="goose">Goose</option>
-                              <option value="guinea-pig">Guinea pig</option>
-                              <option value="horse">Horse</option>
-                              <option value="sheep">Sheep</option>
-                              <option value="pig">Pig</option>
-                              <option value="rabbit">Rabbit</option>
-                          </select>
-                      </div>
-                      <div class="col-5">
-                          <select class="form-control">
-                              <option value="none" disabled selected>Select breed...</option>
-                              <option *ngFor="let breed of this.breeds" value="{{ breed }}">{{ breed }}</option>
-                          </select>
-                      </div>
-                  </div>
+                    <div class="form-group row">
+                        <label class="col-2 col-form-label">
+                            <strong>Reward: </strong>
+                        </label>
+                        <div class="col-5">
+                            <input type="number" class="form-control" placeholder="In USD" [(ngModel)]="this.post.reward" required/>
+                        </div>
+                    </div>
 
-                  <div class="form-group row mt5">
-                      <label class="col-2 col-form-label"><strong>Date:</strong></label>
-                      <div class="col-5">
-                          <input type="date" class="form-control" placeholder="Lost date" />
-                      </div>
-                      <div class="col-5">
-                          <p class="additional-info">* This is the date your pet got lost.</p>
-                      </div>
-                  </div>
+                    <div class="form-group row">
+                        <label class="col-2 col-form-label">
+                            <strong>Animal: </strong>
+                        </label>
+                        <div class="col-5">
+                            <select class="form-control" (change)="changedAnimal($event)">
+                                <option value="none" disabled selected>Select type...</option>
+                                <option value="cat">Cat</option>
+                                <option value="chicken">Chicken</option>
+                                <option value="dog">Dog</option>
+                                <option value="donkey">Donkey</option>
+                                <option value="duck">Duck</option>
+                                <option value="goat">Goat</option>
+                                <option value="goose">Goose</option>
+                                <option value="guinea-pig">Guinea pig</option>
+                                <option value="horse">Horse</option>
+                                <option value="sheep">Sheep</option>
+                                <option value="pig">Pig</option>
+                                <option value="rabbit">Rabbit</option>
+                            </select>
+                        </div>
+                        <div class="col-5">
+                            <select class="form-control" (change)="changedBreed($event)">
+                                <option value="none" disabled selected>Select breed...</option>
+                                <option *ngFor="let breed of this.breeds" value="{{ breed.id }}">{{ breed.name }}</option>
+                            </select>
+                        </div>
+                    </div>
 
-                  <div class="form-group row mt5">
-                      <label class="col-2 col-form-label"><strong>Place: </strong></label>
-                      <div class="col-5">
-                          <select class="form-control">
-                              <option value="none" disabled selected>Select country...</option>
-                          </select>
-                      </div>
-                      <div class="col-5">
-                          <select class="form-control">
-                              <option value="none" disabled selected>Select state...</option>
-                          </select>
-                      </div>
-                  </div>
+                    <div class="form-group row mt5">
+                        <label class="col-2 col-form-label">
+                            <strong>Date:</strong>
+                        </label>
+                        <div class="col-5">
+                            <input type="date" class="form-control" placeholder="Lost date" min="2000-01-01" [ngModel]="this.post.lostDate | date:'yyyy-MM-dd'" (ngModelChange)="this.post.lostDate = $event"
+                                required/>
+                        </div>
+                        <div class="col-5">
+                            <p class="additional-info">* This is the date your pet got lost.</p>
+                        </div>
+                    </div>
 
-                  <div class="form-group row mt5">
-                      <div class="col-2"></div>
-                      <div class="col-5">
-                          <select class="form-control">
-                              <option value="none" disabled selected>Select city...</option>
-                          </select>
-                      </div>
-                      <div class="col-5">
-                          <p class="additional-info">* This is where your pet got lost.</p>
-                      </div>
-                  </div>
+                    <div class="form-group row mt5">
+                        <label class="col-2 col-form-label">
+                            <strong>Place: </strong>
+                        </label>
+                        <div class="col-5">
+                            <select class="form-control" (change)="countryChanged($event)">
+                                <option value="none" disabled selected>Select country...</option>
+                                <option value="CA">Canada</option>
+                                <option value="MX">México</option>
+                                <option value="US">United States</option>
+                            </select>
+                        </div>
+                        <div class="col-5">
+                            <select class="form-control" (change)="stateChanged($event)">
+                                <option value="none" disabled selected>Select state...</option>
+                                <option *ngFor="let state of this.states" value="{{ state.id }}">{{ state.name }}</option>
+                            </select>
+                        </div>
+                    </div>
 
-                  <div class="mt10">
-                      <strong>Description: </strong>
-                      <textarea class="form-control mt5" rows="3" maxlength="130" placeholder="Write a short description of your pet (130 characters)." [(ngModel)]="this.post.description"></textarea>
-                  </div>
-              </div>
-          </div>
+                    <div class="form-group row mt5">
+                        <div class="col-2"></div>
+                        <div class="col-5">
+                            <select class="form-control" (change)="cityChanged($event)">
+                                <option value="none" disabled selected>Select city...</option>
+                                <option *ngFor="let city of this.cities" value="{{ city.id }}">{{ city.name }}</option>
+                            </select>
+                        </div>
+                        <div class="col-5">
+                            <p class="additional-info">* This is where your pet got lost.</p>
+                        </div>
+                    </div>
 
-          <!-- Separator -->
-          <hr class="mt20 mb20">
+                    <div class="mt10">
+                        <strong>Description: </strong>
+                        <textarea class="form-control mt5" rows="3" maxlength="130" placeholder="Write a short description of your pet (130 characters)."
+                            [(ngModel)]="this.post.description"></textarea>
+                    </div>
+                </div>
+            </div>
 
-          <div align="right">
-              <button class="btn btn-primary" [disabled]="!this.postIsValid()" (click)="addPost()">Add post</button>
-          </div>
-          
-      </div>
-      
-      <!-- Owner's info -->
-      <div class="content" id="owner-info">
-          <!-- Title -->
-          <h3>Owner's contact information</h3>
+            <!-- Separator -->
+            <hr class="mt20 mb20">
 
-          <!-- Separator -->
-          <hr class="mt20 mb30">
+            <div align="right">
+                <button class="btn btn-primary" [disabled]="!this.postIsValid()" (click)="addPost()">Add post</button>
+            </div>
 
-          <div class="form-group row">
-              <label class="col-2 col-form-label"><strong>Name: </strong></label>
-              <div class="col-10">
-                  <input type="text" class="form-control" placeholder="Your name" value="John Smith"/>
-              </div>
-          </div>
+        </div>
 
-          <div class="form-group row">
-              <label class="col-2 col-form-label"><strong>Email: </strong></label>
-              <div class="col-8">
-                  <input type="email" class="form-control" placeholder="Your email" value="john@example.com"/>
-              </div>
-              <div class="form-check col-2">
-                  <label class="form-check-label">
-                      <input type="checkbox" name="show-contact-info" class="form-check-input">
-                      Show
-                  </label>
-              </div>
-          </div>
+        <!-- Owner's info -->
+        <div class="content" id="owner-info" *ngIf="this.post.ownerContactInfo">
+            <!-- Title -->
+            <h3>Owner's contact information</h3>
 
-          <div class="form-group row">
-              <label class="col-3 col-form-label"><strong>Phone number: </strong></label>
-              <div class="col-7">
-                  <input type="text" class="form-control" placeholder="Your phone number" value="555-1234" />
-              </div>
-              <div class="form-check col-2">
-                  <label class="form-check-label">
-                      <input type="checkbox" name="show-contact-info" class="form-check-input" checked>
-                      Show
-                  </label>
-              </div>
-          </div>
-      </div>
-  </div>
+            <!-- Separator -->
+            <hr class="mt20 mb30">
+
+            <div class="form-group row">
+                <label class="col-2 col-form-label">
+                    <strong>Name: </strong>
+                </label>
+                <div class="col-10">
+                    <input type="text" class="form-control" placeholder="Your name" [(ngModel)]="this.post.ownerContactInfo.name" disabled/>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-2 col-form-label">
+                    <strong>Email: </strong>
+                </label>
+                <div class="col-8">
+                    <input type="email" class="form-control" placeholder="Your email" [(ngModel)]="this.post.ownerContactInfo.email" />
+                </div>
+                <div class="form-check col-2">
+                    <label class="form-check-label">
+                        <input type="checkbox" name="show-contact-info" class="form-check-input" [(ngModel)]="this.publishOwnerEmail"> Show
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-3 col-form-label">
+                    <strong>Phone number: </strong>
+                </label>
+                <div class="col-7">
+                    <input type="number" class="form-control" placeholder="Your phone number" [(ngModel)]="this.post.ownerContactInfo.phoneNumber" />
+                </div>
+                <div class="form-check col-2">
+                    <label class="form-check-label">
+                        <input type="checkbox" name="show-contact-info" class="form-check-input" [(ngModel)]="this.publishOwnerPhoneNumber"> Show
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
 </article>
 
 <article *ngIf="!this.post">
-  <h1 class="loading">Loading post...</h1>
+    <h1 class="loading">Loading post...</h1>
 </article>

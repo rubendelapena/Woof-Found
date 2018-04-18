@@ -59,17 +59,19 @@
           <!-- Separator -->
           <hr class="mt20 mb30">
 
-          <textarea class="form-control" rows="3" placeholder="Write your comment here..." required [(ngModel)]="this.comment.text"></textarea>
-          <div align="right">
-              <button class="btn btn-primary mt10" (click)="postComment()" [disabled]="this.comment.text.trim().length < 1">Post</button>
+          <div *ngIf="this.comment.userId">
+            <textarea class="form-control" rows="3" placeholder="Write your comment here..." required [(ngModel)]="this.comment.text"></textarea>
+            <div align="right">
+                <button class="btn btn-primary mt10" (click)="postComment()" [disabled]="this.comment.text.trim().length < 1">Post</button>
+            </div>
+            <hr class="mt20">
           </div>
 
-          <hr class="mt20 mb40">
+          <p class="mt40" align="center" *ngIf="this.post.comments.length == 0">There are no comments yet</p>
 
-          <p align="center" *ngIf="this.post.comments.length == 0">There are no comments yet</p>
-
-          <div *ngIf="this.post.comments.length > 0">
-            <app-comment *ngFor="let comment of this.post.comments" [comment]="comment"></app-comment>
+          <div class="mt30 mb20" *ngFor="let comment of this.post.comments">
+            <app-comment [comment]="comment"></app-comment>
+            <hr *ngIf="comment != this.post.comments[this.post.comments.length - 1]">
           </div>
       </div>
   </div>
