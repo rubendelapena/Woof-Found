@@ -1,16 +1,19 @@
-import { Component, OnInit, state } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AppUser } from '../models/AppUser';
-import { UserService } from '../services/user.service';
 import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-my-account',
-  templateUrl: './my-account.component.html',
-  styleUrls: ['./my-account.component.css']
+  selector: 'app-sign-in',
+  templateUrl: './sign-in.component.html',
+  styleUrls: ['./sign-in.component.css']
 })
-export class MyAccountComponent implements OnInit {
+export class SignInComponent implements OnInit {
 
+  private showSignIn: boolean;
   private user: AppUser;
+  private password: string;
+  private confirmPassword: string;
 
   private states: Array<{ 'id': string, 'name': string }>;
   private cities: Array<{ 'id': string, 'name': string }>;
@@ -19,57 +22,27 @@ export class MyAccountComponent implements OnInit {
   private selectedCityId: string;
 
   constructor(
-    private userService: UserService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {
+    this.showSignIn = true;
+    this.user = new AppUser();
     this.states = new Array<{ 'id': string, 'name': string }>();
     this.cities = new Array<{ 'id': string, 'name': string }>();
-  }
+   }
 
   ngOnInit() {
-    this.authService.getLoggedUser(
-      user => {
-        if (user) {
-          this.user = user;
-          console.log(user);
-          
-          this.userService.getUserPosts(this.user.id,
-            posts => {
-              this.user.posts = posts;
-              this.selectedCountryId = this.location.find(country => country.name == this.user.location.country).id;
-              this.states = this.location.find(country => country.name == this.user.location.country).states;
-              this.selectedStateId = this.location.find(country => country.name == this.user.location.country).states.find(state => state.name == this.user.location.state).id;
-              this.cities = this.location.find(country => country.name == this.user.location.country).states.find(state => state.name == this.user.location.state).cities;
-              this.selectedCityId = this.location.find(country => country.name == this.user.location.country).states.find(state => state.name == this.user.location.state).cities.find(city => city.name == this.user.location.city).id;
-            },
-            errorMessage => {
-              console.error(errorMessage);
-            }
-          );
-        } else {
-          // Redirect to sign in.
-        }
-      },
-      errorMessage => {
-        console.error(errorMessage);
-      }
-    );
+    if (this.authService.aUserIsSigned()) {
+      this.router.navigate['/home'];
+    }
   }
 
-  private saveChanges() {
-    this.user.location.city = this.cities.find(city => city.id == this.selectedCityId).name;
-    this.user.location.state = this.states.find(state => state.id == this.selectedStateId).name;
-    this.user.location.country = this.location.find(country => country.id == this.selectedCountryId).name;
+  private toggleSignIn() {
+    this.showSignIn = !this.showSignIn;
+  }
 
-    this.userService.updateUser(this.user,
-      successMessage => {
-        console.log(successMessage);
-        alert('Your changes have been saved.');
-      },
-      errorMessage => {
-        console.error(errorMessage);
-      }
-    )
+  private signIn() {
+    this.authService.signIn(this.user.email, this.password);
   }
 
   private countryChanged(event: Event) {
@@ -80,8 +53,6 @@ export class MyAccountComponent implements OnInit {
     this.location.find(country => country.id == this.selectedCountryId).states.forEach(state => {
       this.states.push({ 'id': state.id, 'name': state.name });
     });
-    console.log(this.states);
-    
   }
 
   private stateChanged(event: Event) {

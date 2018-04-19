@@ -29,24 +29,6 @@ export class UserService {
       );
   }
 
-  public getLoggedUser(success: (user: AppUser) => void, err: (message: string) => void) {
-    const userId: string = 'bTBujWqK6kvoMUB52L79';
-
-    this.afs.collection('users').doc(userId).snapshotChanges().map(
-      changes => {
-        const data = changes.payload.data() as AppUser;
-        data.id = changes.payload.id;
-        return data;
-      }).subscribe(
-        data => {
-          success(data);
-        },
-        err => {
-          //err("Error while fetching user.");
-        }
-      );
-  }
-
   public getUserPosts(userId: string, success: (posts: Post[]) => void, err: (message: string) => void) {
     this.afs.collection('posts', ref => {
       return ref.where('userId', '==', userId);

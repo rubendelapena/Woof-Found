@@ -6,6 +6,7 @@ import { Location } from '@angular/common';
 import { PostComment } from '../models/PostComment';
 import { UserService } from '../services/user.service';
 import { AppUser } from '../models/AppUser';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-post-details',
@@ -25,7 +26,8 @@ export class PostDetailsComponent implements OnInit {
     private location: Location,
     private activatedRoute: ActivatedRoute,
     private postService: PostService,
-    private userService: UserService
+    private userService: UserService,
+    private authService: AuthService
   ) {
     this.comment = new PostComment();
    }
@@ -62,7 +64,7 @@ export class PostDetailsComponent implements OnInit {
       }
     );
 
-    this.userService.getLoggedUser(
+    this.authService.getLoggedUser(
       user => {
         this.postOwnerId = user.id;
         this.comment.userId = user.id;

@@ -1,0 +1,41 @@
+<div class="login-page">
+  <div class="form">
+    <div class="register-form" *ngIf="!this.showSignIn">
+      <input class="form-control" type="text" placeholder="Name" [(ngModel)]="this.user.name" />
+      <input class="form-control mt10" type="email" placeholder="Email address" [(ngModel)]="this.user.email" />
+      <input class="form-control mt10" type="number" placeholder="Phone number" [(ngModel)]="this.user.phoneNumber" />
+
+      <select class="form-control mt10" (change)="countryChanged($event)">
+        <option value="none" disabled selected>Select country...</option>
+        <option value="CA">Canada</option>
+        <option value="MX">México</option>
+        <option value="US">United States</option>
+      </select>
+
+      <select class="form-control mt10" (change)="stateChanged($event)">
+        <option value="none" disabled selected>Select state...</option>
+        <option *ngFor="let state of this.states" value="{{ state.id }}">{{ state.name }}</option>
+      </select>
+
+      <select class="form-control mt10" (change)="cityChanged($event)">
+        <option value="none" disabled selected>Select city...</option>
+        <option *ngFor="let city of this.cities" value="{{ city.id }}">{{ city.name }}</option>
+      </select>
+
+      <input class="form-control mt10" type="password" placeholder="Password (6 or more characters)" [(ngModel)]="this.password" />
+      <input class="form-control mt10" type="password" placeholder="Confirm password" min="6" [(ngModel)]="this.confirmPassword" />
+      <button class="btn btn-primary mt30" (click)="signUp()">Sign up</button>
+      <p class="message">Already registered?
+        <a class="text-primary" (click)="toggleSignIn()">Sign In</a>
+      </p>
+    </div>
+    <div class="login-form" *ngIf="this.showSignIn">
+      <input class="form-control" type="text" placeholder="Email" [(ngModel)]="this.user.email" />
+      <input class="form-control mt10" type="password" placeholder="Password" [(ngModel)]="this.password" />
+      <button class="btn btn-primary btn-block mt30" (click)="signIn()">Sign in</button>
+      <p class="message">Not registered?
+        <a class="text-primary" (click)="toggleSignIn()">Create an account</a>
+      </p>
+    </div>
+  </div>
+</div>

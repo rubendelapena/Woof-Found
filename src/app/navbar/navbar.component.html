@@ -13,7 +13,8 @@
       <a class="nav-item nav-link" routerLink="/my-account">My account</a>
       <a class="nav-item nav-link" routerLink="/about-us">About us</a>
       <div style="border-left:1px solid #FFF;height:35px; margin: 0 30px 0 10px;"></div>
-      <a class="nav-item nav-link" routerLink="/sign-in">Sign in</a>
+      <a class="nav-item nav-link" routerLink="/sign-in" *ngIf="!this.authService.aUserIsSigned()">Sign in</a>
+      <a class="nav-item nav-link" (click)="signOut()" *ngIf="this.authService.aUserIsSigned()">Sign out</a>
     </div>
   </div>
 </nav>

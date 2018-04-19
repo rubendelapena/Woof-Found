@@ -23,6 +23,7 @@ import { CommentComponent } from './post-details/comment/comment.component';
 import { UserService } from './services/user.service';
 import { AuthService } from './services/auth.service';
 import { AuthGuardService } from './services/auth-guard.service';
+import { SignInComponent } from './sign-in/sign-in.component';
 
 
 
@@ -49,7 +50,8 @@ const firebaseConfig = {
     PostDetailsComponent,
     PostComponent,
     AddPostComponent,
-    CommentComponent
+    CommentComponent,
+    SignInComponent
   ],
   imports: [
     BrowserModule,

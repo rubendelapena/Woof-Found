@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { AppUser } from '../models/AppUser';
 import { UserService } from '../services/user.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-add-post',
@@ -35,7 +36,8 @@ export class AddPostComponent implements OnInit {
     private loc: Location,
     private activatedRoute: ActivatedRoute,
     private postService: PostService,
-    private userService: UserService
+    private userService: UserService,
+    private authService: AuthService
   ) {
     this.breeds = new Array<{ 'id': string, 'name': string }>();
     this.states = new Array<{ 'id': string, 'name': string }>();
@@ -87,7 +89,7 @@ export class AddPostComponent implements OnInit {
       );
     }
 
-    this.userService.getLoggedUser(
+    this.authService.getLoggedUser(
       user => {
         this.post.userId = user.id;
         this.post.ownerContactInfo = { name: user.name, email: user.email, phoneNumber: user.phoneNumber };
