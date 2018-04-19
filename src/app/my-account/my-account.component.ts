@@ -56,7 +56,52 @@ export class MyAccountComponent implements OnInit {
     );
   }
 
+  private userInfoIsValid(): boolean {
+
+    if (this.user.name == '') {
+      alert('Please enter your name');
+      return false;
+    }
+
+    if ((document.getElementById('user-email') as HTMLInputElement).value == '') {
+      alert('Please enter your email.')
+      return false;
+    }
+
+    if (!this.user.birthday) {
+      alert('Please enter your birthday.');
+      return false;
+    }
+
+    if ((document.getElementById('user-phone-number') as HTMLInputElement).value == '') {
+      alert('Please enter your phone number.')
+      return false;
+    }
+
+    if ((document.getElementById('user-country') as HTMLSelectElement).value == 'none') {
+      alert('Please select a country.');
+      return false;
+    }
+
+    if ((document.getElementById('user-state') as HTMLSelectElement).value == 'none') {
+      alert('Please select a state.');
+      return false;
+    }
+
+    if ((document.getElementById('user-city') as HTMLSelectElement).value == 'none') {
+      alert('Please select a city.');
+      return false;
+    }
+
+    return true;
+  }
+
   private saveChanges() {
+
+    if(!this.userInfoIsValid()) {
+      return;
+    }
+
     this.user.location.city = this.cities.find(city => city.id == this.selectedCityId).name;
     this.user.location.state = this.states.find(state => state.id == this.selectedStateId).name;
     this.user.location.country = this.location.find(country => country.id == this.selectedCountryId).name;

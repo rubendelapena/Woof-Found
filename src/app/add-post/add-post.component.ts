@@ -102,6 +102,73 @@ export class AddPostComponent implements OnInit {
   }
 
   private postIsValid(): boolean {
+
+    if (this.post.petName == '') {
+      alert('Please enter your pet\'s name');
+      return false;
+    }
+
+    if ((document.getElementById('pet-age') as HTMLInputElement).value == '') {
+      alert('Please enter your pet\'s age.')
+      return false;
+    }
+
+    if ((document.getElementById('pet-reward') as HTMLInputElement).value == '') {
+      alert('Please enter a reward, it can be $0.')
+      return false;
+    }
+    
+    if ((document.getElementById('pet-type') as HTMLSelectElement).value == 'none') {
+      alert('Please select an animal type.');
+      return false;
+    }
+
+    if ((document.getElementById('pet-breed') as HTMLSelectElement).value == 'none') {
+      alert('Please select a breed.');
+      return false;
+    }
+
+    if (!this.post.lostDate) {
+      alert('Please enter the date your pet got lost.');
+      return false;
+    }
+    
+
+    if ((document.getElementById('pet-country') as HTMLSelectElement).value == 'none') {
+      alert('Please select a country.');
+      return false;
+    }
+
+    if ((document.getElementById('pet-state') as HTMLSelectElement).value == 'none') {
+      alert('Please select a state.');
+      return false;
+    }
+
+    if ((document.getElementById('pet-city') as HTMLSelectElement).value == 'none') {
+      alert('Please select a city.');
+      return false;
+    }
+
+    if ((document.getElementById('pet-description') as HTMLSelectElement).value == 'none') {
+      alert('Please enter a brief description of your pet.');
+      return false;
+    }
+
+    if (!this.publishOwnerEmail && !this.publishOwnerPhoneNumber) {
+      alert('You need to publish either your email or phone number, this is for people to contact you in case someone finds your pet.');
+      return false;
+    }
+
+    if (this.publishOwnerEmail && ((document.getElementById('owner-email') as HTMLSelectElement).value == '')) {
+      alert('If selected, please enter your email.');
+      return false;
+    }
+
+    if (this.publishOwnerPhoneNumber && ((document.getElementById('owner-phone-number') as HTMLSelectElement).value == '')) {
+      alert('If selected, please enter your phone number.');
+      return false;
+    }
+
     return true;
   }
 
@@ -114,6 +181,11 @@ export class AddPostComponent implements OnInit {
   }
 
   private addPost() {
+
+    if (!this.postIsValid()) {
+      return false;
+    }    
+
     this.post.animal = this.animals.find(animal => animal.id == this.selectedAnimalId).name;
     this.post.breed = this.breeds.find(breed => breed.id == this.selectedBreedId).name;
     this.post.createdAt = Date.now();
