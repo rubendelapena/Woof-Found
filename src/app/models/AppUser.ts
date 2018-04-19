@@ -9,4 +9,5 @@ export class AppUser {
     name: string;
     phoneNumber: number;
     posts: Post[];
+    role: string;
 }

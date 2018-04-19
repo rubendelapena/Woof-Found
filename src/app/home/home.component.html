@@ -1,4 +1,4 @@
 <article>
-    <app-filters></app-filters>
-    <app-posts></app-posts>
+    <app-filters (eventFilter)="updateFilter($event)"></app-filters>
+    <app-posts [filter]="this.filter"></app-posts>
 </article>

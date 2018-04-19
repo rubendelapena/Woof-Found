@@ -16,6 +16,7 @@ export class AddPostComponent implements OnInit {
   private post: Post;
   private actionToPerform: string;
   private petAge: number;
+  private ageUnit: string;
 
   private states: Array<{ 'id': string, 'name': string }>;
   private cities: Array<{ 'id': string, 'name': string }>;
@@ -42,11 +43,12 @@ export class AddPostComponent implements OnInit {
 
     this.publishOwnerEmail = false;
     this.publishOwnerPhoneNumber = true;
+    this.ageUnit = 'years';
   }
 
   ngOnInit() {
     this.actionToPerform = this.activatedRoute.snapshot.paramMap.get('actionToPerform');
-    let postId: string = this.activatedRoute.snapshot.paramMap.get('postId');
+    const postId: string = this.activatedRoute.snapshot.paramMap.get('postId');
 
     if (this.actionToPerform == 'add') {
       this.post = new Post();
@@ -54,6 +56,30 @@ export class AddPostComponent implements OnInit {
       this.postService.getPost(postId,
         post => {
           this.post = post;
+
+          // Format pet's age.
+          if (this.post.petAge >= 12) {
+            this.petAge = (this.post.petAge / 12);
+            this.ageUnit = 'years';
+          } else {
+            this.petAge = this.post.petAge;
+            this.ageUnit = 'months';
+          }
+
+          // Set animal and breed.
+          this.selectedAnimalId = this.animals.find(animal => animal.name == this.post.animal).id;
+          this.selectedBreedId = this.animals.find(animal => animal.name == this.post.animal).breeds.find(breed => breed == this.post.breed);
+          this.breeds = new Array<{ 'id': string, 'name': string }>();
+          this.animals.find(animal => animal.id == this.selectedAnimalId).breeds.forEach(breed => {
+            this.breeds.push({ 'id': breed, 'name': breed });
+          });
+
+          // Set location.
+          this.selectedCountryId = this.location.find(country => country.name == this.post.lostPlace.country).id;
+          this.states = this.location.find(country => country.name == this.post.lostPlace.country).states;
+          this.selectedStateId = this.location.find(country => country.name == this.post.lostPlace.country).states.find(state => state.name == this.post.lostPlace.state).id;
+          this.cities = this.location.find(country => country.name == this.post.lostPlace.country).states.find(state => state.name == this.post.lostPlace.state).cities;
+          this.selectedCityId = this.location.find(country => country.name == this.post.lostPlace.country).states.find(state => state.name == this.post.lostPlace.state).cities.find(city => city.name == this.post.lostPlace.city).id;
         },
         errorMessage => {
           console.error(errorMessage);
@@ -67,7 +93,7 @@ export class AddPostComponent implements OnInit {
         this.post.ownerContactInfo = { name: user.name, email: user.email, phoneNumber: user.phoneNumber };
       },
       errorMessage => {
-        console.error(errorMessage); 
+        console.error(errorMessage);
       }
     );
   }
@@ -89,7 +115,7 @@ export class AddPostComponent implements OnInit {
     this.post.lostPlace.state = this.states.find(state => state.id == this.selectedStateId).name;
     this.post.lostPlace.country = this.location.find(country => country.id == this.selectedCountryId).name;
 
-    if (((document.getElementById("age-unit")) as HTMLSelectElement).selectedIndex == 0) {
+    if (this.ageUnit == 'years') {
       this.post.petAge = 12 * this.petAge;
     } else {
       this.post.petAge = this.petAge;
@@ -102,9 +128,6 @@ export class AddPostComponent implements OnInit {
     if (!this.publishOwnerEmail) {
       this.post.ownerContactInfo.email = null;
     }
-
-    console.log(this.post);
-
 
     if (this.actionToPerform == 'add') {
       this.postService.addPost(this.post,
@@ -129,6 +152,10 @@ export class AddPostComponent implements OnInit {
         }
       );
     }
+  }
+
+  private changeAgeUnit(event: Event) {
+    this.ageUnit = (event.target as HTMLSelectElement).value;
   }
 
   private changedAnimal(event: Event) {

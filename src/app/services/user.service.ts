@@ -9,43 +9,45 @@ import { Post } from '../models/Post';
 @Injectable()
 export class UserService {
 
-  constructor(private afs: AngularFirestore) { }
+  constructor(
+    private afs: AngularFirestore
+  ) { }
 
-  public getUser(userId: string, success: (user: AppUser) => void, error: (message: string) => void) {
+  public getUser(userId: string, success: (user: AppUser) => void, err: (message: string) => void) {
     this.afs.collection('users').doc(userId).snapshotChanges().map(
       changes => {
-        let data = changes.payload.data() as AppUser;
+        const data = changes.payload.data() as AppUser;
         data.id = changes.payload.id;
         return data;
       }).subscribe(
         data => {
           success(data);
         },
-        error => {
-          error("Error while fetching user.");
+        err => {
+          err("Error while fetching user.");
         }
       );
   }
 
-  public getLoggedUser(success: (user: AppUser) => void, error: (message: string) => void) {
+  public getLoggedUser(success: (user: AppUser) => void, err: (message: string) => void) {
     const userId: string = 'bTBujWqK6kvoMUB52L79';
 
     this.afs.collection('users').doc(userId).snapshotChanges().map(
       changes => {
-        let data = changes.payload.data() as AppUser;
+        const data = changes.payload.data() as AppUser;
         data.id = changes.payload.id;
         return data;
       }).subscribe(
         data => {
           success(data);
         },
-        error => {
-          //error("Error while fetching user.");
+        err => {
+          //err("Error while fetching user.");
         }
       );
   }
 
-  public getUserPosts(userId: string, success: (posts: Post[]) => void, error: (message: string) => void) {
+  public getUserPosts(userId: string, success: (posts: Post[]) => void, err: (message: string) => void) {
     this.afs.collection('posts', ref => {
       return ref.where('userId', '==', userId);
     }).snapshotChanges().map(
@@ -60,10 +62,29 @@ export class UserService {
         data => {
           success(data);
         },
-        error => {
-          error("Error while fetching user's posts.");
+        err => {
+          err("Error while fetching user's posts.");
         }
       );
+  }
+
+  public updateUser(user: AppUser, success: (message: string) => void, err: (message: string) => void) {
+    const userModel = {
+      'name': user.name,
+      'birthday': user.birthday,
+      'location': user.location,
+      'phoneNumber': user.phoneNumber
+    };
+
+    this.afs.collection('users').doc(user.id).update(userModel).then(
+      docRef => {
+        success("User " + user.id + " was updated successfully.")
+      }
+    ).catch(
+      err => {
+        err("Error while updating user" + user.id);
+      }
+    );
   }
 
 }

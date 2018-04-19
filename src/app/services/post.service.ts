@@ -10,7 +10,7 @@ export class PostService {
 
   constructor(private afs: AngularFirestore) { }
 
-  public getAllPosts(success: (posts: Post[]) => void, error: (message: string) => void) {
+  public getAllPosts(success: (posts: Post[]) => void, err: (message: string) => void) {
     this.afs.collection('posts', ref => {
       return ref.orderBy('createdAt', 'desc');
     }).snapshotChanges().map(
@@ -26,15 +26,15 @@ export class PostService {
           success(data);
         },
         error => {
-          error("Error while fetching all posts.");
+          err("Error while fetching all posts.");
         }
       );
   }
 
-  public getPost(postId: string, success: (post: Post) => void, error: (message: string) => void) {
+  public getPost(postId: string, success: (post: Post) => void, err: (message: string) => void) {
     this.afs.collection('posts').doc(postId).snapshotChanges().map(
       changes => {
-        let data = changes.payload.data() as Post;
+        const data = changes.payload.data() as Post;
         data.id = changes.payload.id;
         return data;
       }).subscribe(
@@ -42,12 +42,12 @@ export class PostService {
           success(data);
         },
         error => {
-          error("Error while fetching post.");
+          err("Error while fetching post.");
         }
       );
   }
 
-  public getAllComments(postId: string, success: (comments: PostComment[]) => void, error: (message: string) => void) {
+  public getAllComments(postId: string, success: (comments: PostComment[]) => void, err: (message: string) => void) {
     this.afs.collection('posts').doc(postId).collection('comments', ref => {
       return ref.orderBy('createdAt', 'desc')
     }).snapshotChanges().map(
@@ -63,12 +63,12 @@ export class PostService {
           success(data);
         },
         error => {
-          error("Error while fetching all posts.");
+          err("Error while fetching all posts.");
         }
       );
   }
 
-  public addComment(postId: string, comment: PostComment, success: (message: string) => void, error: (message: string) => void) {
+  public addComment(postId: string, comment: PostComment, success: (message: string) => void, err: (message: string) => void) {
 
     const model = {
       createdAt: comment.createdAt,
@@ -83,12 +83,12 @@ export class PostService {
       }
     ).catch(
       error => {
-        error("Error while adding comment" + comment.text);
+        err("Error while adding comment" + comment.text);
       }
     );
   }
 
-  public addPost(post: Post, success: (message: string) => void, error: (message: string) => void) {
+  public addPost(post: Post, success: (message: string) => void, err: (message: string) => void) {
     const postModel = {
       'animal': post.animal,
       'breed': post.breed,
@@ -102,11 +102,53 @@ export class PostService {
       'reward': post.reward,
       'userId': post.userId
     };
-    
-    this.afs.collection('posts').add(postModel);
+
+    this.afs.collection('posts').add(postModel).then(
+      docRef => {
+        success('Post ' + docRef.id + ' was added successfully.');
+      }
+    ).catch(
+      error => {
+        err('Error while adding post.');
+      }
+    );
   }
 
-  public updatePost(post: Post, success: (message: string) => void, error: (message: string) => void) {
-    
+  public updatePost(post: Post, success: (message: string) => void, err: (message: string) => void) {
+    const postModel = {
+      'animal': post.animal,
+      'breed': post.breed,
+      'createdAt': post.createdAt,
+      'description': post.description,
+      'lostDate': post.lostDate,
+      'lostPlace': post.lostPlace,
+      'ownerContactInfo': post.ownerContactInfo,
+      'petAge': post.petAge,
+      'petName': post.petName,
+      'reward': post.reward,
+      'userId': post.userId
+    };
+
+    this.afs.collection('posts').doc(post.id).update(postModel).then(
+      docRef => {
+        success('Post ' + post.id + ' was updated successfully.');
+      }
+    ).catch(
+      error => {
+        err('Error while updating post ' + post.id + '.');
+      }
+    );
+  }
+
+  public deletePost(post: Post, success: (message: string) => void, err: (message: string) => void) {
+    this.afs.collection('posts').doc(post.id).delete().then(
+      docRef => {
+        success("Post deleted successfully.");
+      }
+    ).catch(
+      error => {
+        err("Error while deleting the post.");
+      }
+    );
   }
 }

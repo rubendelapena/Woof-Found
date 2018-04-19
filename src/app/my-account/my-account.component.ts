@@ -30,6 +30,11 @@ export class MyAccountComponent implements OnInit {
           this.userService.getUserPosts(this.user.id,
             posts => {
               this.user.posts = posts;
+              this.selectedCountryId = this.location.find(country => country.name == this.user.location.country).id;
+              this.states = this.location.find(country => country.name == this.user.location.country).states;
+              this.selectedStateId = this.location.find(country => country.name == this.user.location.country).states.find(state => state.name == this.user.location.state).id;
+              this.cities = this.location.find(country => country.name == this.user.location.country).states.find(state => state.name == this.user.location.state).cities;
+              this.selectedCityId = this.location.find(country => country.name == this.user.location.country).states.find(state => state.name == this.user.location.state).cities.find(city => city.name == this.user.location.city).id;
             },
             errorMessage => {
               console.error(errorMessage);
@@ -46,7 +51,19 @@ export class MyAccountComponent implements OnInit {
   }
 
   private saveChanges() {
-    this.user.birthday = new Date(this.user.birthday).getTime();
+    this.user.location.city = this.cities.find(city => city.id == this.selectedCityId).name;
+    this.user.location.state = this.states.find(state => state.id == this.selectedStateId).name;
+    this.user.location.country = this.location.find(country => country.id == this.selectedCountryId).name;
+
+    this.userService.updateUser(this.user,
+      successMessage => {
+        console.log(successMessage);
+        alert('Your changes have been saved.');
+      },
+      errorMessage => {
+        console.error(errorMessage);
+      }
+    )
   }
 
   private countryChanged(event: Event) {

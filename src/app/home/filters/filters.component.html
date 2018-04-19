@@ -1,57 +1,103 @@
 <div class="containter column" id="filters-container">
-  <!-- Container header -->
-  <h3>Filter by</h3>
-  <hr class="mt25 mb25">
+    <!-- Container header -->
+    <h3>Filter by</h3>
+    <hr class="mt25 mb25">
 
-  <!-- Animal filter -->
-  <div class="row align-items-center">
-      <div class="col-4">
-          <strong>Animal</strong>
-      </div>
-      <div class="col-8">
-          <select class="form-control" name="pet-type" id="pet-type">
-              <option value="0">All</option>
-          </select>
-      </div>
-  </div>
+    <!-- Animal filter -->
+    <div class="row align-items-center">
+        <div class="col-4">
+            <strong>Animal</strong>
+        </div>
+        <div class="col-8">
+            <select class="form-control" name="pet-type" id="pet-type" (change)="changedAnimal($event)">
+                <option value="none">All</option>
+                <option value="cat">Cat</option>
+                <option value="chicken">Chicken</option>
+                <option value="dog">Dog</option>
+                <option value="donkey">Donkey</option>
+                <option value="duck">Duck</option>
+                <option value="goat">Goat</option>
+                <option value="goose">Goose</option>
+                <option value="guinea-pig">Guinea pig</option>
+                <option value="horse">Horse</option>
+                <option value="sheep">Sheep</option>
+                <option value="pig">Pig</option>
+                <option value="rabbit">Rabbit</option>
+            </select>
+        </div>
+    </div>
 
-  <!-- Breed filter -->
-  <div class="row mt15 align-items-center">
-      <div class="col-4">
-          <strong>Breed</strong>
-      </div>
-      <div class="col-8">
-          <select class="form-control" name="pet-breed" id="pet-breed">
-              <option value="0">All</option>
-          </select>
-      </div>
-  </div>
+    <!-- Breed filter -->
+    <div class="row mt15 align-items-center">
+        <div class="col-4">
+            <strong>Breed</strong>
+        </div>
+        <div class="col-8">
+            <select class="form-control" name="pet-breed" id="pet-breed">
+                <option value="none">All</option>
+                <option *ngFor="let breed of this.breeds" value="{{ breed.id }}">{{ breed.name }}</option>
+            </select>
+        </div>
+    </div>
 
-  <!-- Color filter -->
-  <div class="row mt15 align-items-center">
-      <div class="col-4">
-          <strong>Color</strong>
-      </div>
-      <div class="col-8">
-          <select class="form-control" name="pet-color" id="pet-color">
-              <option value="0">All</option>
-          </select>
-      </div>
-  </div>
+    <!-- Reward filter -->
+    <div class="row mt15 align-items-center">
+        <div class="col-4">
+            <strong>Reward</strong>
+        </div>
+        <div class="col-8">
+            <select class="form-control" name="pet-reward" id="pet-reward">
+                <option value="none">Anything</option>
+                <option value="19">Less than $20</option>
+                <option value="20">$20 to $50</option>
+                <option value="51">$51 to $100</option>
+                <option value="101">More than $101</option>
+            </select>
+        </div>
+    </div>
 
-  <!-- Reward filter -->
-  <div class="row mt15 align-items-center">
-      <div class="col-4">
-          <strong>Reward</strong>
-      </div>
-      <div class="col-8">
-          <select class="form-control" name="pet-color" id="pet-color">
-              <option value="0">Anything</option>
-          </select>
-      </div>
-  </div>
+    <!-- Country filter -->
+    <div class="row mt15 align-items-center">
+        <div class="col-4">
+            <strong>Country</strong>
+        </div>
+        <div class="col-8">
+            <select class="form-control" name="pet-country" id="pet-country" (change)="countryChanged($event)">
+                <option value="none" selected>All</option>
+                <option value="CA">Canada</option>
+                <option value="MX">México</option>
+                <option value="US">United States</option>
+            </select>
+        </div>
+    </div>
 
-  <div align="center">
-    <button class="btn btn-primary mt20 pl50 pr50">Update</button>
-  </div>
+    <!-- State filter -->
+    <div class="row mt15 align-items-center">
+        <div class="col-4">
+            <strong>State</strong>
+        </div>
+        <div class="col-8">
+            <select class="form-control" name="pet-state" id="pet-state" (change)="stateChanged($event)">
+                <option value="none" selected>All</option>
+                <option *ngFor="let state of this.states" value="{{ state.id }}">{{ state.name }}</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- City filter -->
+    <div class="row mt15 align-items-center">
+        <div class="col-4">
+            <strong>City</strong>
+        </div>
+        <div class="col-8">
+            <select class="form-control" name="pet-city" id="pet-city">
+                <option value="none" selected>All</option>
+                <option *ngFor="let city of this.cities" value="{{ city.id }}">{{ city.name }}</option>
+            </select>
+        </div>
+    </div>
+
+    <div align="center">
+        <button class="btn btn-primary mt20 pl50 pr50" (click)="applyFilter()">Update</button>
+    </div>
 </div>

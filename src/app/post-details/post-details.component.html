@@ -1,82 +1,94 @@
 <article *ngIf="this.post">
-  <div class="containter">
-      <!-- Pet's info -->
-      <div class="content mb30" id="pet-info">
-          <!-- Title -->
-          <div class="row align-items-bottom">
-              <div class="col-6">
-                  <h3 class="m0">About {{ this.post.petName }}</h3>
-              </div>
-              <div class="col-6" align="right">
-                  <button class="btn btn-primary" (click)="goBack()">Go back</button>
-              </div>
-          </div>
-
-          <!-- Separator -->
-          <hr class="mt15 mb30">
-
-          <!-- Pet's info -->
-          <div class="row align-items-center">
-              <div class="col-5">
-                  <img src="http://placeimg.com/368/278/animals" alt="Pet's name">
-              </div>
-              <div class="col-7 pt20">
-                  <div class="row">
-                      <div class="col-6">
-                          <p><strong>Name: </strong>{{ this.post.petName }}</p>
-                          <p><strong>Animal: </strong>{{ this.post.animal }}</p>
-                          <p><strong>Last seen: </strong>{{ this.post.lostDate | date }} near {{ this.lostLocation }}</p>
-                      </div>
-                      <div class="col-6">
-                          <p><strong>Age: </strong>{{ this.petAge }}</p>
-                          <p><strong>Breed: </strong>{{ this.post.breed }}</p>
-                          <p><strong>Reward: </strong>${{ this.post.reward }} USD</p>
-                      </div>
-                  </div>
-                  <p><strong>Description: </strong>{{ this.post.description }}</p>
-              </div>
-          </div>
-      </div>
-      
-      <!-- Owner's info -->
-      <div class="content" id="owner-info">
-          <!-- Title -->
-          <h3>Owner's contact information</h3>
-
-          <!-- Separator -->
-          <hr class="mt20 mb30">
-
-          <p><strong>Name: </strong>{{ this.post.ownerContactInfo.name }}</p>
-          <p *ngIf="this.post.ownerContactInfo.email"><strong>Email: </strong>{{ this.post.ownerContactInfo.email }}</p>
-          <p *ngIf="this.post.ownerContactInfo.phoneNumber"><strong>Phone number: </strong>{{ this.post.ownerContactInfo.phoneNumber }}</p>
-      </div>
-      
-      <!-- Comments's info -->
-      <div class="content" id="comments" *ngIf="this.post.comments">
-          <!-- Title -->
-          <h3>Comments</h3>
-
-          <!-- Separator -->
-          <hr class="mt20 mb30">
-
-          <div *ngIf="this.comment.userId">
-            <textarea class="form-control" rows="3" placeholder="Write your comment here..." required [(ngModel)]="this.comment.text"></textarea>
-            <div align="right">
-                <button class="btn btn-primary mt10" (click)="postComment()" [disabled]="this.comment.text.trim().length < 1">Post</button>
+    <div class="containter">
+        <!-- Pet's info -->
+        <div class="content mb30" id="pet-info">
+            <!-- Title -->
+            <div class="row align-items-bottom">
+                <div class="col-6">
+                    <h3 class="m0">About {{ this.post.petName }}</h3>
+                </div>
+                <div class="col-6" align="right">
+                    <button class="btn btn-info" *ngIf="this.postOwnerId && this.post.userId == this.postOwnerId" routerLink="/post/{{ this.post.id }}/edit">Edit</button>
+                    <button class="btn btn-danger" *ngIf="(this.postOwnerId && this.post.userId == this.postOwnerId) || this.currentUserRole == 'admin'" (click)="deletePost()">Delete</button>
+                    <button class="btn btn-primary" (click)="goBack()">Go back</button>
+                </div>
             </div>
-            <hr class="mt20">
-          </div>
 
-          <p class="mt40" align="center" *ngIf="this.post.comments.length == 0">There are no comments yet</p>
+            <!-- Separator -->
+            <hr class="mt15 mb30">
 
-          <div class="mt30 mb20" *ngFor="let comment of this.post.comments">
-            <app-comment [comment]="comment"></app-comment>
-            <hr *ngIf="comment != this.post.comments[this.post.comments.length - 1]">
-          </div>
-      </div>
-  </div>
+            <!-- Pet's info -->
+            <div class="row align-items-center">
+                <div class="col-5">
+                    <img src="http://placeimg.com/368/278/animals" alt="Pet's name">
+                </div>
+                <div class="col-7 pt20">
+                    <div class="row">
+                        <div class="col-6">
+                            <p>
+                                <strong>Name: </strong>{{ this.post.petName }}</p>
+                            <p>
+                                <strong>Animal: </strong>{{ this.post.animal }}</p>
+                            <p>
+                                <strong>Last seen: </strong>{{ this.post.lostDate | date }} near {{ this.lostLocation }}</p>
+                        </div>
+                        <div class="col-6">
+                            <p>
+                                <strong>Age: </strong>{{ this.petAge }}</p>
+                            <p>
+                                <strong>Breed: </strong>{{ this.post.breed }}</p>
+                            <p>
+                                <strong>Reward: </strong>${{ this.post.reward }} USD</p>
+                        </div>
+                    </div>
+                    <p>
+                        <strong>Description: </strong>{{ this.post.description }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Owner's info -->
+        <div class="content" id="owner-info">
+            <!-- Title -->
+            <h3>Owner's contact information</h3>
+
+            <!-- Separator -->
+            <hr class="mt20 mb30">
+
+            <p>
+                <strong>Name: </strong>{{ this.post.ownerContactInfo.name }}</p>
+            <p *ngIf="this.post.ownerContactInfo.email">
+                <strong>Email: </strong>{{ this.post.ownerContactInfo.email }}</p>
+            <p *ngIf="this.post.ownerContactInfo.phoneNumber">
+                <strong>Phone number: </strong>{{ this.post.ownerContactInfo.phoneNumber }}</p>
+        </div>
+
+        <!-- Comments's info -->
+        <div class="content" id="comments" *ngIf="this.post.comments">
+            <!-- Title -->
+            <h3>Comments</h3>
+
+            <!-- Separator -->
+            <hr class="mt20 mb30">
+
+            <div *ngIf="this.comment.userId">
+                <textarea class="form-control" rows="3" placeholder="Write your comment here..." required [(ngModel)]="this.comment.text"></textarea>
+                <div align="right">
+                    <button class="btn btn-primary mt10" (click)="postComment()" [disabled]="this.comment.text.trim().length < 1">Post</button>
+                </div>
+                <hr class="mt20">
+            </div>
+
+            <p class="mt40" align="center" *ngIf="this.post.comments.length == 0">There are no comments yet</p>
+
+            <div class="mt30 mb20" *ngFor="let comment of this.post.comments">
+                <app-comment [comment]="comment"></app-comment>
+                <hr *ngIf="comment != this.post.comments[this.post.comments.length - 1]">
+            </div>
+        </div>
+    </div>
 </article>
 
 <article *ngIf="!this.post">>
-  <h1 class="loading">Loading post...</h1>
+    <h1 class="loading">Loading post...</h1>
 </article>

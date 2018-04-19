@@ -10,8 +10,11 @@
                     <strong>Sort by: </strong>
                 </div>
                 <div class="col-8">
-                    <select class="form-control" name="pet-breed" id="pet-breed">
-                        <option value="0">Most recent</option>
+                    <select class="form-control" name="sort-posts" id="sort-posts" (change)="sortPosts($event)">
+                        <option value="latest-first" selected>Most recent first</option>
+                        <option value="oldest-first">Oldest first</option>
+                        <option value="largest-reward-first">Largest reward</option>
+                        <option value="smallest-reward-first">Smallest reward</option>
                     </select>
                 </div>
             </div>
@@ -31,6 +34,10 @@
         <app-post class="post" [post]="post" routerLink="/post/{{ this.post.id }}"></app-post>
         <!-- Separator -->
         <hr *ngIf="post != this.posts[this.posts.length - 1]">
+    </div>
+
+    <div *ngIf="this.posts.length < 1">
+        <h1 class="loading">There are no posts.</h1>
     </div>
 
     <!-- Loading -->

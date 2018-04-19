@@ -4,6 +4,7 @@ import { FormsModule }   from '@angular/forms';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { AngularFireAuthModule } from 'angularfire2/auth';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -20,8 +21,12 @@ import { AddPostComponent } from './add-post/add-post.component';
 import { PostService } from './services/post.service';
 import { CommentComponent } from './post-details/comment/comment.component';
 import { UserService } from './services/user.service';
+import { AuthService } from './services/auth.service';
+import { AuthGuardService } from './services/auth-guard.service';
 
-var firebaseConfig = {
+
+
+const firebaseConfig = {
   apiKey: "AIzaSyDcd9CRiALC3atuRdg0zieC9KAJWyiWZIY",
   authDomain: "woof-and-found.firebaseapp.com",
   databaseURL: "https://woof-and-found.firebaseio.com",
@@ -51,11 +56,14 @@ var firebaseConfig = {
     AppRoutingModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFirestoreModule,
+    AngularFireAuthModule,
     FormsModule
   ],
   providers: [
     PostService, 
-    UserService
+    UserService,
+    AuthService,
+    AuthGuardService
   ],
   bootstrap: [AppComponent]
 })

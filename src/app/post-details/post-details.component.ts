@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { PostComment } from '../models/PostComment';
 import { UserService } from '../services/user.service';
-import { ERROR_COMPONENT_TYPE } from '@angular/compiler';
+import { AppUser } from '../models/AppUser';
 
 @Component({
   selector: 'app-post-details',
@@ -18,6 +18,8 @@ export class PostDetailsComponent implements OnInit {
   private petAge: string;
   private lostLocation: string;
   private comment: PostComment;
+  private postOwnerId: string;
+  private currentUserRole: string;
 
   constructor(
     private location: Location,
@@ -29,7 +31,7 @@ export class PostDetailsComponent implements OnInit {
    }
 
   ngOnInit() {
-    let postId: string = this.activatedRoute.snapshot.paramMap.get('postId');
+    const postId: string = this.activatedRoute.snapshot.paramMap.get('postId');
 
     this.postService.getPost(postId,
       post => {
@@ -62,8 +64,10 @@ export class PostDetailsComponent implements OnInit {
 
     this.userService.getLoggedUser(
       user => {
+        this.postOwnerId = user.id;
         this.comment.userId = user.id;
         this.comment.userName = user.name;
+        this.currentUserRole = user.role;
       },
       errorMessage => {
         console.error(errorMessage);
@@ -73,6 +77,22 @@ export class PostDetailsComponent implements OnInit {
 
   private goBack() {
     this.location.back();
+  }
+
+  private deletePost() {
+    if (!confirm('Are you sure to delete this post?\n(This action is NOT reversible)')) {
+      return;
+    }
+
+    this.postService.deletePost(this.post,
+      successMessage => {
+        console.log(successMessage);
+        this.goBack();
+      },
+      errorMessage => {
+        console.error(errorMessage);
+      }
+    );
   }
 
   private postComment() {

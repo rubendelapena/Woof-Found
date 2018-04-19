@@ -32,7 +32,7 @@
                     <strong>Birthday:</strong>
                 </label>
                 <div class="col-4">
-                    <input type="date" class="form-control" placeholder="Birth date" [ngModel]="this.user.birthday | date:'yyyy-MM-dd'" (ngModelChange)="this.user.birthday = $event"
+                    <input type="date" class="form-control" placeholder="Birth date" min="1918-01-01" [ngModel]="this.user.birthday | date:'yyyy-MM-dd'" (ngModelChange)="this.user.birthday = $event"
                         required/>
                 </div>
 
@@ -55,21 +55,21 @@
                         <div class="col-4">
                             <select class="form-control" (change)="countryChanged($event)">
                                 <option value="none" disabled selected>Select country...</option>
-                                <option value="CA">Canada</option>
-                                <option value="MX">México</option>
-                                <option value="US">United States</option>
+                                <option value="CA" [selected]="'Canada' == this.user.location.country">Canada</option>
+                                <option value="MX" [selected]="'México' == this.user.location.country">México</option>
+                                <option value="US" [selected]="'United States' == this.user.location.country">United States</option>
                             </select>
                         </div>
                         <div class="col-4">
                             <select class="form-control" (change)="stateChanged($event)">
                                 <option value="none" disabled selected>Select state...</option>
-                                <option *ngFor="let state of this.states" value="{{ state.id }}">{{ state.name }}</option>
+                                <option *ngFor="let state of this.states" value="{{ state.id }}" [selected]="state.name == this.user.location.state">{{ state.name }}</option>
                             </select>
                         </div>
                         <div class="col-4">
                             <select class="form-control" (change)="cityChanged($event)">
                                 <option value="none" disabled selected>Select city...</option>
-                                <option *ngFor="let city of this.cities" value="{{ city.id }}">{{ city.name }}</option>
+                                <option *ngFor="let city of this.cities" value="{{ city.id }}" [selected]="city.name == this.user.location.city">{{ city.name }}</option>
                             </select>
                         </div>
                     </div>

@@ -45,9 +45,9 @@
                             <input type="number" class="form-control" placeholder="Your pet's age" [(ngModel)]="this.petAge" required/>
                         </div>
                         <div class="col-5">
-                            <select class="form-control" id="age-unit">
-                                <option value="years" selected>Years</option>
-                                <option value="months">Months</option>
+                            <select class="form-control" id="age-unit" (change)="changeAgeUnit($event)">
+                                <option value="years" [selected]="this.ageUnit == 'years'">Years</option>
+                                <option value="months" [selected]="this.ageUnit == 'months'">Months</option>
                             </select>
                         </div>
                     </div>
@@ -57,7 +57,7 @@
                             <strong>Reward: </strong>
                         </label>
                         <div class="col-5">
-                            <input type="number" class="form-control" placeholder="In USD" [(ngModel)]="this.post.reward" required/>
+                            <input type="number" class="form-control" placeholder="In USD" max="999" [(ngModel)]="this.post.reward" required/>
                         </div>
                     </div>
 
@@ -68,24 +68,24 @@
                         <div class="col-5">
                             <select class="form-control" (change)="changedAnimal($event)">
                                 <option value="none" disabled selected>Select type...</option>
-                                <option value="cat">Cat</option>
-                                <option value="chicken">Chicken</option>
-                                <option value="dog">Dog</option>
-                                <option value="donkey">Donkey</option>
-                                <option value="duck">Duck</option>
-                                <option value="goat">Goat</option>
-                                <option value="goose">Goose</option>
-                                <option value="guinea-pig">Guinea pig</option>
-                                <option value="horse">Horse</option>
-                                <option value="sheep">Sheep</option>
-                                <option value="pig">Pig</option>
-                                <option value="rabbit">Rabbit</option>
+                                <option value="cat" [selected]="this.post.animal == 'Cat'">Cat</option>
+                                <option value="chicken" [selected]="this.post.animal == 'Chicken'">Chicken</option>
+                                <option value="dog" [selected]="this.post.animal == 'Dog'">Dog</option>
+                                <option value="donkey" [selected]="this.post.animal == 'Donkey'">Donkey</option>
+                                <option value="duck" [selected]="this.post.animal == 'Duck'">Duck</option>
+                                <option value="goat" [selected]="this.post.animal == 'Goat'">Goat</option>
+                                <option value="goose" [selected]="this.post.animal == 'Goose'">Goose</option>
+                                <option value="guinea-pig" [selected]="this.post.animal == 'Guinea pig'">Guinea pig</option>
+                                <option value="horse" [selected]="this.post.animal == 'Horse'">Horse</option>
+                                <option value="sheep" [selected]="this.post.animal == 'Sheep'">Sheep</option>
+                                <option value="pig" [selected]="this.post.animal == 'Pig'">Pig</option>
+                                <option value="rabbit" [selected]="this.post.animal == 'Rabbit'">Rabbit</option>
                             </select>
                         </div>
                         <div class="col-5">
                             <select class="form-control" (change)="changedBreed($event)">
                                 <option value="none" disabled selected>Select breed...</option>
-                                <option *ngFor="let breed of this.breeds" value="{{ breed.id }}">{{ breed.name }}</option>
+                                <option *ngFor="let breed of this.breeds" value="{{ breed.id }}" [selected]="this.post.breed == breed.name">{{ breed.name }}</option>
                             </select>
                         </div>
                     </div>
@@ -110,15 +110,15 @@
                         <div class="col-5">
                             <select class="form-control" (change)="countryChanged($event)">
                                 <option value="none" disabled selected>Select country...</option>
-                                <option value="CA">Canada</option>
-                                <option value="MX">México</option>
-                                <option value="US">United States</option>
+                                <option value="CA" [selected]="'Canada' == this.post.lostPlace.country">Canada</option>
+                                <option value="MX" [selected]="'México' == this.post.lostPlace.country">México</option>
+                                <option value="US" [selected]="'United States' == this.post.lostPlace.country">United States</option>
                             </select>
                         </div>
                         <div class="col-5">
                             <select class="form-control" (change)="stateChanged($event)">
                                 <option value="none" disabled selected>Select state...</option>
-                                <option *ngFor="let state of this.states" value="{{ state.id }}">{{ state.name }}</option>
+                                <option *ngFor="let state of this.states" value="{{ state.id }}" [selected]="state.name == this.post.lostPlace.state">{{ state.name }}</option>
                             </select>
                         </div>
                     </div>
@@ -128,7 +128,7 @@
                         <div class="col-5">
                             <select class="form-control" (change)="cityChanged($event)">
                                 <option value="none" disabled selected>Select city...</option>
-                                <option *ngFor="let city of this.cities" value="{{ city.id }}">{{ city.name }}</option>
+                                <option *ngFor="let city of this.cities" value="{{ city.id }}" [selected]="city.name == this.post.lostPlace.city">{{ city.name }}</option>
                             </select>
                         </div>
                         <div class="col-5">
