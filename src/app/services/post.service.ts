@@ -163,7 +163,15 @@ export class PostService {
   public deletePost(post: Post, success: (message: string) => void, err: (message: string) => void) {
     this.afs.collection('posts').doc(post.id).delete().then(
       docRef => {
-        success("Post deleted successfully.");
+        this.afStorage.storage.ref('/posts/' + post.id).delete().then(
+          value => {
+            success("Post deleted successfully.");
+          }
+        ).catch(
+          value => {
+            err("Error while deleting the post.");
+          }
+        );
       }
     ).catch(
       error => {

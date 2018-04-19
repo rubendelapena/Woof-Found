@@ -30,7 +30,7 @@ export class PostDetailsComponent implements OnInit {
     private router: Router
   ) {
     this.comment = new PostComment();
-   }
+  }
 
   ngOnInit() {
     const postId: string = this.activatedRoute.snapshot.paramMap.get('postId');
@@ -45,20 +45,20 @@ export class PostDetailsComponent implements OnInit {
         } else {
           this.petAge = '' + this.post.petAge + ' months';
         }
-    
+
         // Set location string.
         this.lostLocation = this.post.lostPlace['city'] + ', ' + this.post.lostPlace['state'] + ', ' + this.post.lostPlace['country'];
 
         // Get post comments.
-        this.postService.getAllComments(this.post.id, 
+        this.postService.getAllComments(this.post.id,
           comments => {
             this.post.comments = comments;
           },
-          errorMessage => {
-            console.error(errorMessage);
+          errorMessage2 => {
+            console.error(errorMessage2);
           }
         );
-      }, 
+      },
       errorMessage => {
         console.error(errorMessage);
       }
@@ -100,7 +100,7 @@ export class PostDetailsComponent implements OnInit {
   private postComment() {
     this.comment.createdAt = Date.now();
 
-    this.postService.addComment(this.post.id, this.comment, 
+    this.postService.addComment(this.post.id, this.comment,
       successMessage => {
         console.log(successMessage);
         this.comment.createdAt = null;
