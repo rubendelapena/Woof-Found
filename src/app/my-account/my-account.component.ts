@@ -29,26 +29,20 @@ export class MyAccountComponent implements OnInit {
   ngOnInit() {
     this.authService.getLoggedUser(
       user => {
-        if (user) {
-          this.user = user;
-          console.log(user);
-          
-          this.userService.getUserPosts(this.user.id,
-            posts => {
-              this.user.posts = posts;
-              this.selectedCountryId = this.location.find(country => country.name == this.user.location.country).id;
-              this.states = this.location.find(country => country.name == this.user.location.country).states;
-              this.selectedStateId = this.location.find(country => country.name == this.user.location.country).states.find(state => state.name == this.user.location.state).id;
-              this.cities = this.location.find(country => country.name == this.user.location.country).states.find(state => state.name == this.user.location.state).cities;
-              this.selectedCityId = this.location.find(country => country.name == this.user.location.country).states.find(state => state.name == this.user.location.state).cities.find(city => city.name == this.user.location.city).id;
-            },
-            errorMessage => {
-              console.error(errorMessage);
-            }
-          );
-        } else {
-          // Redirect to sign in.
-        }
+        this.user = user;
+        this.userService.getUserPosts(this.user.id,
+          posts => {
+            this.user.posts = posts;
+            this.selectedCountryId = this.location.find(country => country.name == this.user.location.country).id;
+            this.states = this.location.find(country => country.name == this.user.location.country).states;
+            this.selectedStateId = this.location.find(country => country.name == this.user.location.country).states.find(state => state.name == this.user.location.state).id;
+            this.cities = this.location.find(country => country.name == this.user.location.country).states.find(state => state.name == this.user.location.state).cities;
+            this.selectedCityId = this.location.find(country => country.name == this.user.location.country).states.find(state => state.name == this.user.location.state).cities.find(city => city.name == this.user.location.city).id;
+          },
+          errorMessage => {
+            console.error(errorMessage);
+          }
+        );
       },
       errorMessage => {
         console.error(errorMessage);
@@ -98,7 +92,7 @@ export class MyAccountComponent implements OnInit {
 
   private saveChanges() {
 
-    if(!this.userInfoIsValid()) {
+    if (!this.userInfoIsValid()) {
       return;
     }
 
@@ -126,7 +120,7 @@ export class MyAccountComponent implements OnInit {
       this.states.push({ 'id': state.id, 'name': state.name });
     });
     console.log(this.states);
-    
+
   }
 
   private stateChanged(event: Event) {

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Post } from '../models/Post';
 import { PostService } from '../services/post.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { AppUser } from '../models/AppUser';
 import { UserService } from '../services/user.service';
@@ -38,7 +38,8 @@ export class AddPostComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private postService: PostService,
     private userService: UserService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {
     this.breeds = new Array<{ 'id': string, 'name': string }>();
     this.states = new Array<{ 'id': string, 'name': string }>();
@@ -108,7 +109,7 @@ export class AddPostComponent implements OnInit {
       return false;
     }
 
-    if ((document.getElementById('pet-age') as HTMLInputElement).value == '') {
+    if ((document.getElementById('pet-age') as HTMLInputElement).value == '' || +(document.getElementById('pet-age') as HTMLInputElement).value < 1) {
       alert('Please enter your pet\'s age.')
       return false;
     }
@@ -117,7 +118,7 @@ export class AddPostComponent implements OnInit {
       alert('Please enter a reward, it can be $0.')
       return false;
     }
-    
+
     if ((document.getElementById('pet-type') as HTMLSelectElement).value == 'none') {
       alert('Please select an animal type.');
       return false;
@@ -132,7 +133,6 @@ export class AddPostComponent implements OnInit {
       alert('Please enter the date your pet got lost.');
       return false;
     }
-    
 
     if ((document.getElementById('pet-country') as HTMLSelectElement).value == 'none') {
       alert('Please select a country.');
@@ -173,7 +173,7 @@ export class AddPostComponent implements OnInit {
   }
 
   private goBack() {
-    this.loc.back();
+    this.router.navigate(['/home']);
   }
 
   private serPictureUrl(event) {
@@ -184,7 +184,7 @@ export class AddPostComponent implements OnInit {
 
     if (!this.postIsValid()) {
       return false;
-    }    
+    }
 
     this.post.animal = this.animals.find(animal => animal.id == this.selectedAnimalId).name;
     this.post.breed = this.breeds.find(breed => breed.id == this.selectedBreedId).name;
@@ -210,9 +210,9 @@ export class AddPostComponent implements OnInit {
 
     if (this.actionToPerform == 'add') {
       this.postService.addPost(this.post, this.localPictureUrl,
-        successMessage => {
-          console.log(successMessage);
-          this.goBack();
+        postId => {
+          console.log('Post ' + postId + ' was added successfully.');
+          this.router.navigate(['/post/' + postId]);
         },
         errorMessage => {
           console.error(errorMessage);
@@ -221,9 +221,9 @@ export class AddPostComponent implements OnInit {
       );
     } else {
       this.postService.updatePost(this.post,
-        successMessage => {
-          console.log(successMessage);
-          this.goBack();
+        postId => {
+          console.log('Post ' + postId + ' was updated successfully.');
+          this.router.navigate(['/post/' + postId]);
         },
         errorMessage => {
           console.error(errorMessage);

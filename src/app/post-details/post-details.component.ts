@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Post } from '../models/Post';
 import { PostService } from '../services/post.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { PostComment } from '../models/PostComment';
 import { UserService } from '../services/user.service';
@@ -23,11 +23,11 @@ export class PostDetailsComponent implements OnInit {
   private currentUserRole: string;
 
   constructor(
-    private location: Location,
     private activatedRoute: ActivatedRoute,
     private postService: PostService,
     private userService: UserService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {
     this.comment = new PostComment();
    }
@@ -78,7 +78,7 @@ export class PostDetailsComponent implements OnInit {
   }
 
   private goBack() {
-    this.location.back();
+    this.router.navigate(['/home']);
   }
 
   private deletePost() {

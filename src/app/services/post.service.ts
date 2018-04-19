@@ -113,7 +113,7 @@ export class PostService {
           value => {
             this.afs.collection('posts').doc(docRef.id).update({ 'pictureUrl': value.downloadURL }).then(
               value => {
-                success('Post was added successfully.');
+                success(docRef.id);
               }
             ).catch(
               error => {
@@ -151,7 +151,7 @@ export class PostService {
 
     this.afs.collection('posts').doc(post.id).update(postModel).then(
       docRef => {
-        success('Post ' + post.id + ' was updated successfully.');
+        success(post.id);
       }
     ).catch(
       error => {

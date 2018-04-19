@@ -3,11 +3,21 @@ import { AppUser } from '../models/AppUser';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { Router } from '@angular/router';
+import { ValueTransformer } from '@angular/compiler/src/util';
+import { User } from '@firebase/auth-types';
 
 @Injectable()
 export class AuthService {
 
   public redirect: string;
+
+  set currentUser(value: User) {
+    localStorage.setItem('currentUser', JSON.stringify(value));
+  }
+
+  get currentUser() {
+    return JSON.parse(localStorage.getItem('currentUser')) as User;
+  }
 
   constructor(
     private afs: AngularFirestore,
@@ -18,7 +28,7 @@ export class AuthService {
    }
 
   public aUserIsSigned(): boolean {
-    if (this.auth.auth.currentUser) {
+    if (this.currentUser) {
       return true;
     } else {
       return false;
@@ -26,8 +36,8 @@ export class AuthService {
   }
 
   public userIsSignedWithId(postOwnerId: string): boolean {
-    if (this.auth.auth.currentUser) {
-      return this.auth.auth.currentUser.uid == postOwnerId;
+    if (this.currentUser) {
+      return this.currentUser.uid == postOwnerId;
     } else {
       return false;
     }
@@ -45,7 +55,11 @@ export class AuthService {
           'role': 'user'
         };
 
-        this.afs.collection('users').doc(value.id).set(userModel);
+        this.afs.collection('users').doc(value.id).set(userModel).then(
+          value => {
+            this.currentUser = this.auth.auth.currentUser;
+          }
+        );
       }
     ).catch(
       error => {
@@ -58,6 +72,7 @@ export class AuthService {
     this.auth.auth.signInWithEmailAndPassword(email, password).then(
       value => {
         console.log('User logged in successfully.');
+        this.currentUser = this.auth.auth.currentUser;
         this.router.navigate([this.redirect]);
         this.redirect = '/home';
       }
@@ -69,11 +84,16 @@ export class AuthService {
   }
 
   public signOut() {
-    this.auth.auth.signOut();
+    this.auth.auth.signOut().then(
+      value => {
+        this.currentUser = null;
+        this.router.navigate(['/home']);
+      }
+    );
   }
 
   public getLoggedUser(success: (user: AppUser) => void, err: (message: string) => void) {
-    const userId: string = this.auth.auth.currentUser.uid;
+    const userId: string = this.currentUser.uid;
 
     this.afs.collection('users').doc(userId).snapshotChanges().map(
       changes => {
@@ -84,8 +104,8 @@ export class AuthService {
         data => {
           success(data);
         },
-        err => {
-          //err("Error while fetching user.");
+        error => {
+          err("Error while fetching user.");
         }
       );
   }

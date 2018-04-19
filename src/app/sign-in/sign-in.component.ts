@@ -33,7 +33,7 @@ export class SignInComponent implements OnInit {
 
   ngOnInit() {
     if (this.authService.aUserIsSigned()) {
-      this.router.navigate['/home'];
+      this.router.navigate(['/home']);
     }
   }
 

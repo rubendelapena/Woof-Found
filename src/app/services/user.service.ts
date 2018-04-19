@@ -23,7 +23,7 @@ export class UserService {
         data => {
           success(data);
         },
-        err => {
+        error => {
           err("Error while fetching user.");
         }
       );
@@ -31,7 +31,7 @@ export class UserService {
 
   public getUserPosts(userId: string, success: (posts: Post[]) => void, err: (message: string) => void) {
     this.afs.collection('posts', ref => {
-      return ref.where('userId', '==', userId);
+      return ref.where('userId', '==', userId).orderBy('createdAt', 'desc');
     }).snapshotChanges().map(
       changes => {
         return changes.map(
@@ -44,7 +44,7 @@ export class UserService {
         data => {
           success(data);
         },
-        err => {
+        error => {
           err("Error while fetching user's posts.");
         }
       );
@@ -63,7 +63,7 @@ export class UserService {
         success("User " + user.id + " was updated successfully.")
       }
     ).catch(
-      err => {
+      error => {
         err("Error while updating user" + user.id);
       }
     );
