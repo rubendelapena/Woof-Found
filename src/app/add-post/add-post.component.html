@@ -23,7 +23,8 @@
                         <label>
                             <strong>Upload picture</strong>
                         </label>
-                        <input type="file" class="form-control-file" id="exampleInputFile" accept=".png, .jpg, .jpeg" aria-describedby="fileHelp">
+                        <input type="file" class="form-control-file" id="exampleInputFile" accept=".png, .jpg, .jpeg" aria-describedby="fileHelp"
+                            (change)="serPictureUrl($event)" [disabled]="this.actionToPerform == 'edit'">
                         <small id="fileHelp" class="form-text text-muted mt10">Uploading a picture of your pet will make it easier for people to identify it.</small>
                     </div>
                 </div>
@@ -95,8 +96,8 @@
                             <strong>Date:</strong>
                         </label>
                         <div class="col-5">
-                            <input type="date" class="form-control" placeholder="Lost date" min="2000-01-01" [ngModel]="this.post.lostDate | date:'yyyy-MM-dd'" (ngModelChange)="this.post.lostDate = $event"
-                                required/>
+                            <input type="date" class="form-control" placeholder="Lost date" min="2000-01-01" [ngModel]="this.post.lostDate | date:'yyyy-MM-dd'"
+                                (ngModelChange)="this.post.lostDate = $event" required/>
                         </div>
                         <div class="col-5">
                             <p class="additional-info">* This is the date your pet got lost.</p>
@@ -189,7 +190,8 @@
                     <strong>Phone number: </strong>
                 </label>
                 <div class="col-7">
-                    <input type="number" class="form-control" placeholder="Your phone number" [(ngModel)]="this.post.ownerContactInfo.phoneNumber" />
+                    <input type="number" class="form-control" placeholder="Your phone number" [(ngModel)]="this.post.ownerContactInfo.phoneNumber"
+                    />
                 </div>
                 <div class="form-check col-2">
                     <label class="form-check-label">

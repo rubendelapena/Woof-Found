@@ -14,6 +14,7 @@ export class Post {
     ownerContactInfo: Owner;
     petAge: number;
     petName: string;
+    pictureUrl: string;
     reward: number;
     userId: string;
 
@@ -28,6 +29,7 @@ export class Post {
         this.ownerContactInfo = null;
         this.petAge = null;
         this.petName = '';
+        this.pictureUrl = null;
         this.reward = null;
         this.userId = null;
     }

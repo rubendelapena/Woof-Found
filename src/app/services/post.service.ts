@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
+import { AngularFireStorage } from 'angularfire2/storage';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import { PostComment } from '../models/PostComment';
@@ -8,7 +9,10 @@ import { Post } from '../models/Post';
 @Injectable()
 export class PostService {
 
-  constructor(private afs: AngularFirestore) { }
+  constructor(
+    private afs: AngularFirestore,
+    private afStorage: AngularFireStorage
+  ) { }
 
   public getAllPosts(success: (posts: Post[]) => void, err: (message: string) => void) {
     this.afs.collection('posts', ref => {
@@ -88,7 +92,7 @@ export class PostService {
     );
   }
 
-  public addPost(post: Post, success: (message: string) => void, err: (message: string) => void) {
+  public addPost(post: Post, localPictureUrl: string, success: (message: string) => void, err: (message: string) => void) {
     const postModel = {
       'animal': post.animal,
       'breed': post.breed,
@@ -105,7 +109,23 @@ export class PostService {
 
     this.afs.collection('posts').add(postModel).then(
       docRef => {
-        success('Post ' + docRef.id + ' was added successfully.');
+        this.afStorage.upload('posts/' + docRef.id + '/', localPictureUrl).then(
+          value => {
+            this.afs.collection('posts').doc(docRef.id).update({ 'pictureUrl': value.downloadURL }).then(
+              value => {
+                success('Post was added successfully.');
+              }
+            ).catch(
+              error => {
+                err('Error while adding post.');
+              }
+            );
+          }
+        ).catch(
+          value => {
+            err('Error while uploading post picture.');
+          }
+        );
       }
     ).catch(
       error => {

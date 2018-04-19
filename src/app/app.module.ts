@@ -24,6 +24,7 @@ import { UserService } from './services/user.service';
 import { AuthService } from './services/auth.service';
 import { AuthGuardService } from './services/auth-guard.service';
 import { SignInComponent } from './sign-in/sign-in.component';
+import { AngularFireStorageModule } from 'angularfire2/storage';
 
 
 
@@ -59,6 +60,7 @@ const firebaseConfig = {
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFirestoreModule,
     AngularFireAuthModule,
+    AngularFireStorageModule,
     FormsModule
   ],
   providers: [

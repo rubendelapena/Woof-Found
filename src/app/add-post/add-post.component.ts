@@ -18,6 +18,7 @@ export class AddPostComponent implements OnInit {
   private actionToPerform: string;
   private petAge: number;
   private ageUnit: string;
+  private localPictureUrl: string;
 
   private states: Array<{ 'id': string, 'name': string }>;
   private cities: Array<{ 'id': string, 'name': string }>;
@@ -108,6 +109,10 @@ export class AddPostComponent implements OnInit {
     this.loc.back();
   }
 
+  private serPictureUrl(event) {
+    this.localPictureUrl = event.target.files[0];
+  }
+
   private addPost() {
     this.post.animal = this.animals.find(animal => animal.id == this.selectedAnimalId).name;
     this.post.breed = this.breeds.find(breed => breed.id == this.selectedBreedId).name;
@@ -132,7 +137,7 @@ export class AddPostComponent implements OnInit {
     }
 
     if (this.actionToPerform == 'add') {
-      this.postService.addPost(this.post,
+      this.postService.addPost(this.post, this.localPictureUrl,
         successMessage => {
           console.log(successMessage);
           this.goBack();
