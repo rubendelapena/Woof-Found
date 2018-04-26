@@ -30,14 +30,14 @@ export class MyAccountComponent implements OnInit {
     this.authService.getLoggedUser(
       user => {
         this.user = user;
+        this.selectedCountryId = this.location.find(country => country.name == this.user.location.country).id;
+        this.states = this.location.find(country => country.name == this.user.location.country).states;
+        this.selectedStateId = this.location.find(country => country.name == this.user.location.country).states.find(state => state.name == this.user.location.state).id;
+        this.cities = this.location.find(country => country.name == this.user.location.country).states.find(state => state.name == this.user.location.state).cities;
+        this.selectedCityId = this.location.find(country => country.name == this.user.location.country).states.find(state => state.name == this.user.location.state).cities.find(city => city.name == this.user.location.city).id;
         this.userService.getUserPosts(this.user.id,
           posts => {
             this.user.posts = posts;
-            this.selectedCountryId = this.location.find(country => country.name == this.user.location.country).id;
-            this.states = this.location.find(country => country.name == this.user.location.country).states;
-            this.selectedStateId = this.location.find(country => country.name == this.user.location.country).states.find(state => state.name == this.user.location.state).id;
-            this.cities = this.location.find(country => country.name == this.user.location.country).states.find(state => state.name == this.user.location.state).cities;
-            this.selectedCityId = this.location.find(country => country.name == this.user.location.country).states.find(state => state.name == this.user.location.state).cities.find(city => city.name == this.user.location.city).id;
           },
           errorMessage => {
             console.error(errorMessage);
