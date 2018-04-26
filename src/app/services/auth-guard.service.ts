@@ -14,9 +14,9 @@ export class AuthGuardService implements CanActivate {
 
     // If user is trying to access post edit.
     if (route.paramMap.get('actionToPerform') == 'edit') {
-      let postId = route.paramMap.get('postId');
+      let userId = route.paramMap.get('userId');
 
-      if(this.authService.userIsSignedWithId(postId)) {
+      if(this.authService.userIsSignedWithId(userId)) {
         return true;
       } else {
         this.router.navigate(['/home']);

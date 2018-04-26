@@ -8,7 +8,7 @@
                     <h3 class="m0">About {{ this.post.petName }}</h3>
                 </div>
                 <div class="col-6" align="right">
-                    <button class="btn btn-info" *ngIf="this.postOwnerId && this.post.userId == this.postOwnerId" routerLink="/post/{{ this.post.id }}/edit">Edit</button>
+                    <button class="btn btn-info" *ngIf="this.postOwnerId && this.post.userId == this.postOwnerId" routerLink="/post/{{ this.postOwnerId }}/{{ this.post.id }}/edit">Edit</button>
                     <button class="btn btn-danger" *ngIf="(this.postOwnerId && this.post.userId == this.postOwnerId) || this.currentUserRole == 'admin'" (click)="deletePost()">Delete</button>
                     <button class="btn btn-primary" (click)="goBack()">Go back</button>
                 </div>
