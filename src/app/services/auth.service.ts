@@ -43,27 +43,35 @@ export class AuthService {
     }
   }
 
-  public signUp(user: AppUser, password: string, success: (message: string) => void, err: (message: string) => void) {
+  public signUp(user: AppUser, password: string) {
     this.auth.auth.createUserWithEmailAndPassword(user.email, password).then(
       value => {
         const userModel = {
-          'birthday': user.birthday,
           'email': user.email,
           'location': user.location,
           'name': user.name,
           'phoneNumber': user.phoneNumber,
-          'role': 'user'
+          'role': user.role
         };
 
-        this.afs.collection('users').doc(value.id).set(userModel).then(
+        this.afs.collection('users').doc(value.uid).set(userModel).then(
           value => {
+            console.log('User signed up successfully.');
             this.currentUser = this.auth.auth.currentUser;
+            this.router.navigate([this.redirect]);
+            this.redirect = '/home';
+          }
+        ).catch(
+          error => {
+            console.error('Error while signing up user: ' + error);
+            alert("There was an error signing you up, please try again later.");
           }
         );
       }
     ).catch(
       error => {
-        err('Error while signing up user.');
+        console.error('Error while signing up user: ' + error);
+        alert("There was an error signing you up, please try again later.");
       }
     );
   }
@@ -79,6 +87,7 @@ export class AuthService {
     ).catch(
       error => {
         console.error('Error while logging user: ' + error);
+        alert("Incorrect user, please check your credentials.");
       }
     );
   }

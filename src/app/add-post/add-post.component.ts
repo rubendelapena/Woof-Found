@@ -14,21 +14,21 @@ import { AuthService } from '../services/auth.service';
 })
 export class AddPostComponent implements OnInit {
 
-  private post: Post;
+  public post: Post;
   private actionToPerform: string;
   private petAge: number;
   private ageUnit: string;
   private localPictureUrl: string;
 
-  private states: Array<{ 'id': string, 'name': string }>;
-  private cities: Array<{ 'id': string, 'name': string }>;
+  public states: Array<{ 'id': string, 'name': string }>;
+  public cities: Array<{ 'id': string, 'name': string }>;
   private selectedCountryId: string;
   private selectedStateId: string;
   private selectedCityId: string;
 
   private selectedAnimalId: string;
   private selectedBreedId: string;
-  private breeds: Array<{ 'id': string, 'name': string }>;
+  public breeds: Array<{ 'id': string, 'name': string }>;
 
   private publishOwnerEmail: boolean;
   private publishOwnerPhoneNumber: boolean;
@@ -36,9 +36,9 @@ export class AddPostComponent implements OnInit {
   constructor(
     private loc: Location,
     private activatedRoute: ActivatedRoute,
-    private postService: PostService,
-    private userService: UserService,
-    private authService: AuthService,
+    public postService: PostService,
+    public userService: UserService,
+    public authService: AuthService,
     private router: Router
   ) {
     this.breeds = new Array<{ 'id': string, 'name': string }>();
@@ -237,7 +237,7 @@ export class AddPostComponent implements OnInit {
     this.ageUnit = (event.target as HTMLSelectElement).value;
   }
 
-  private changedAnimal(event: Event) {
+  public changedAnimal(event: Event) {
     this.selectedAnimalId = (event.target as HTMLSelectElement).value;
 
     this.breeds = new Array<{ 'id': string, 'name': string }>();
@@ -246,11 +246,11 @@ export class AddPostComponent implements OnInit {
     });
   }
 
-  private changedBreed(event: Event) {
+  public changedBreed(event: Event) {
     this.selectedBreedId = (event.target as HTMLSelectElement).value;
   }
 
-  private countryChanged(event: Event) {
+  public countryChanged(event: Event) {
     this.selectedCountryId = (event.target as HTMLSelectElement).value;
 
     this.selectedStateId = null;
@@ -262,7 +262,7 @@ export class AddPostComponent implements OnInit {
     });
   }
 
-  private stateChanged(event: Event) {
+  public stateChanged(event: Event) {
     if (this.states.length > 0) {
       this.selectedStateId = (event.target as HTMLSelectElement).value;
 
@@ -274,7 +274,7 @@ export class AddPostComponent implements OnInit {
     }
   }
 
-  private cityChanged(event: Event) {
+  public cityChanged(event: Event) {
     if (this.cities.length > 0) {
       this.selectedCityId = (event.target as HTMLSelectElement).value;
     }

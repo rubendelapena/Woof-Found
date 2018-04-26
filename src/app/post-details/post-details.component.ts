@@ -15,7 +15,7 @@ import { AuthService } from '../services/auth.service';
 })
 export class PostDetailsComponent implements OnInit {
 
-  private post: Post;
+  public post: Post;
   private petAge: string;
   private lostLocation: string;
   private comment: PostComment;
@@ -24,9 +24,9 @@ export class PostDetailsComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private postService: PostService,
-    private userService: UserService,
-    private authService: AuthService,
+    public postService: PostService,
+    public userService: UserService,
+    public authService: AuthService,
     private router: Router
   ) {
     this.comment = new PostComment();

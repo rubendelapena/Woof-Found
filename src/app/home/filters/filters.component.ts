@@ -9,9 +9,9 @@ import { Filter } from '../../models/Filter';
 })
 export class FiltersComponent implements OnInit {
 
-  private states: Array<{ 'id': string, 'name': string }>;
-  private cities: Array<{ 'id': string, 'name': string }>;
-  private breeds: Array<{ 'id': string, 'name': string }>;
+  public states: Array<{ 'id': string, 'name': string }>;
+  public cities: Array<{ 'id': string, 'name': string }>;
+  public breeds: Array<{ 'id': string, 'name': string }>;
 
   private selectedRewardId: string;
 
@@ -27,7 +27,7 @@ export class FiltersComponent implements OnInit {
   ngOnInit() {
   }
 
-  private applyFilter() {
+  public applyFilter() {
 
     const selectedAnimalId: string = ((document.getElementById('pet-type')) as HTMLSelectElement).value;
     const selectedBreedId: string = ((document.getElementById('pet-breed')) as HTMLSelectElement).value;
@@ -93,7 +93,7 @@ export class FiltersComponent implements OnInit {
     this.eventFilter.emit(filter);
   }
 
-  private changedAnimal(event: Event) {
+  public changedAnimal(event: Event) {
     const selectedAnimalId = (event.target as HTMLSelectElement).value;
 
     this.breeds = new Array<{ 'id': string, 'name': string }>();
@@ -102,7 +102,7 @@ export class FiltersComponent implements OnInit {
     });
   }
 
-  private countryChanged(event: Event) {
+  public countryChanged(event: Event) {
     const selectedCountryId = (event.target as HTMLSelectElement).value;
 
     this.states = new Array<{ 'id': string, 'name': string }>();
@@ -112,7 +112,7 @@ export class FiltersComponent implements OnInit {
     });
   }
 
-  private stateChanged(event: Event) {
+  public stateChanged(event: Event) {
     const selectedStateId = (event.target as HTMLSelectElement).value;
     const selectedCountryId: string = ((document.getElementById('pet-country')) as HTMLSelectElement).value;
 

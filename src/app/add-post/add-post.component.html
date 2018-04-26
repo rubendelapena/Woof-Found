@@ -58,7 +58,7 @@
                             <strong>Reward: </strong>
                         </label>
                         <div class="col-5">
-                            <input type="number" class="form-control" placeholder="In USD" max="999" id="pet-reward" [(ngModel)]="this.post.reward" required/>
+                            <input type="number" class="form-control" placeholder="In USD" min="0" max="999" id="pet-reward" [(ngModel)]="this.post.reward" required/>
                         </div>
                     </div>
 

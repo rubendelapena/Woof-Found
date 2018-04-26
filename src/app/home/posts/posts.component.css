@@ -12,5 +12,11 @@
 }
 
 .loading {
+    margin-top: 150px;
     background-color: white;
+}
+
+#page-number p {
+    margin: 0;
+    font-size: 20px;
 }

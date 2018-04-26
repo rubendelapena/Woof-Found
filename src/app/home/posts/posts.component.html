@@ -45,4 +45,17 @@
         <h1 class="loading">Loading posts...</h1>
     </div>
 
+    <!-- Pages -->
+    <div *ngIf="this.posts.length > 0" class="row align-items-center mt30">
+        <div class="col-5" align="right">
+            <button class="btn btn-primary" (click)="this.pageBack()"><</button>
+        </div>
+        <div class="col-2" align="center">
+            <span id="page-number"><p>{{ this.pageNumber }} of {{ this.numOfPages }}</p></span>
+        </div>
+        <div class="col-5" align="left">
+            <button class="btn btn-primary" (click)="this.pageNext()">></button>
+        </div>
+    </div>
+
 </div>

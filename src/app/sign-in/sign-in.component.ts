@@ -10,19 +10,19 @@ import { Router } from '@angular/router';
 })
 export class SignInComponent implements OnInit {
 
-  private showSignIn: boolean;
-  private user: AppUser;
+  public showSignIn: boolean;
+  public user: AppUser;
   private password: string;
   private confirmPassword: string;
 
-  private states: Array<{ 'id': string, 'name': string }>;
-  private cities: Array<{ 'id': string, 'name': string }>;
+  public states: Array<{ 'id': string, 'name': string }>;
+  public cities: Array<{ 'id': string, 'name': string }>;
   private selectedCountryId: string;
   private selectedStateId: string;
   private selectedCityId: string;
 
   constructor(
-    private authService: AuthService,
+    public authService: AuthService,
     private router: Router
   ) {
     this.showSignIn = true;
@@ -45,7 +45,69 @@ export class SignInComponent implements OnInit {
     this.authService.signIn(this.user.email, this.password);
   }
 
-  private countryChanged(event: Event) {
+  private userInfoIsValid(): boolean {
+
+    if ((document.getElementById('user-name') as HTMLInputElement).value == '') {
+      alert('Please enter your name');
+      return false;
+    }
+
+    if ((document.getElementById('user-email') as HTMLInputElement).value == '') {
+      alert('Please enter your email.')
+      return false;
+    }
+
+    if ((document.getElementById('user-phone-number') as HTMLInputElement).value == '') {
+      alert('Please enter your phone number.')
+      return false;
+    }
+
+    if ((document.getElementById('user-country') as HTMLSelectElement).value == 'none') {
+      alert('Please select a country.');
+      return false;
+    }
+
+    if ((document.getElementById('user-state') as HTMLSelectElement).value == 'none') {
+      alert('Please select a state.');
+      return false;
+    }
+
+    if ((document.getElementById('user-city') as HTMLSelectElement).value == 'none') {
+      alert('Please select a city.');
+      return false;
+    }
+
+    if (this.password == '' || this.password.length < 6) {
+      alert('Please verify your password.')
+      return false;
+    }
+
+    if (this.password != this.confirmPassword) {
+      alert('Password confirmation does not match.')
+      return false;
+    }
+
+    return true;
+  }
+
+  private signUp() {
+    if (!this.userInfoIsValid()) {
+      return;
+    }
+
+    this.user.name = (document.getElementById('user-name') as HTMLInputElement).value;
+    this.user.email = (document.getElementById('user-email') as HTMLInputElement).value
+    this.user.phoneNumber = +(document.getElementById('user-phone-number') as HTMLInputElement).value;
+    this.user.location = {city: '', state: '', country: ''};
+    this.user.location.city = this.cities.find(city => city.id == this.selectedCityId).name;
+    this.user.location.state = this.states.find(state => state.id == this.selectedStateId).name;
+    this.user.location.country = this.location.find(country => country.id == this.selectedCountryId).name;
+    this.user.role = 'user';
+
+    this.authService.signUp(this.user, this.password);
+  }
+
+  public countryChanged(event: Event) {
     this.selectedCountryId = (event.target as HTMLSelectElement).value;
 
     this.states = new Array<{ 'id': string, 'name': string }>();
@@ -55,7 +117,7 @@ export class SignInComponent implements OnInit {
     });
   }
 
-  private stateChanged(event: Event) {
+  public stateChanged(event: Event) {
     this.selectedStateId = (event.target as HTMLSelectElement).value;
 
     this.cities = new Array<{ 'id': string, 'name': string }>();
@@ -64,7 +126,7 @@ export class SignInComponent implements OnInit {
     });
   }
 
-  private cityChanged(event: Event) {
+  public cityChanged(event: Event) {
     this.selectedCityId = (event.target as HTMLSelectElement).value;
   }
 

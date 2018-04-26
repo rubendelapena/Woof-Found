@@ -6,7 +6,7 @@ import { AuthService } from './auth.service';
 export class AuthGuardService implements CanActivate {
 
   public constructor(
-    private authService: AuthService,
+    public authService: AuthService,
     private router: Router
   ) { }
 

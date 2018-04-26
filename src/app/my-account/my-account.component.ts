@@ -10,17 +10,17 @@ import { AuthService } from '../services/auth.service';
 })
 export class MyAccountComponent implements OnInit {
 
-  private user: AppUser;
+  public user: AppUser;
 
-  private states: Array<{ 'id': string, 'name': string }>;
-  private cities: Array<{ 'id': string, 'name': string }>;
+  public states: Array<{ 'id': string, 'name': string }>;
+  public cities: Array<{ 'id': string, 'name': string }>;
   private selectedCountryId: string;
   private selectedStateId: string;
   private selectedCityId: string;
 
   constructor(
-    private userService: UserService,
-    private authService: AuthService
+    public userService: UserService,
+    public authService: AuthService
   ) {
     this.states = new Array<{ 'id': string, 'name': string }>();
     this.cities = new Array<{ 'id': string, 'name': string }>();
@@ -111,7 +111,7 @@ export class MyAccountComponent implements OnInit {
     )
   }
 
-  private countryChanged(event: Event) {
+  public countryChanged(event: Event) {
     this.selectedCountryId = (event.target as HTMLSelectElement).value;
 
     this.states = new Array<{ 'id': string, 'name': string }>();
@@ -123,7 +123,7 @@ export class MyAccountComponent implements OnInit {
 
   }
 
-  private stateChanged(event: Event) {
+  public stateChanged(event: Event) {
     this.selectedStateId = (event.target as HTMLSelectElement).value;
 
     this.cities = new Array<{ 'id': string, 'name': string }>();
@@ -132,7 +132,7 @@ export class MyAccountComponent implements OnInit {
     });
   }
 
-  private cityChanged(event: Event) {
+  public cityChanged(event: Event) {
     this.selectedCityId = (event.target as HTMLSelectElement).value;
   }
 

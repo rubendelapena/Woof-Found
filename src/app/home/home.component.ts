@@ -8,7 +8,7 @@ import { Filter } from '../models/Filter';
 })
 export class HomeComponent implements OnInit {
 
-  private filter: Filter;
+  public filter: Filter;
 
   constructor() { 
     this.filter = new Filter();
@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
   }
 
-  private updateFilter(filter: Filter) {
+  public updateFilter(filter: Filter) {
     this.filter = filter;
   }
 
